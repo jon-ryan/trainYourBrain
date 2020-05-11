@@ -8,6 +8,9 @@ html, body {
 
   height: 100%;
   font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+
+  color: rgb(223, 223, 223);
+  background: url(./assets/background.svg) no-repeat center fixed;
 }
 
 .container {
@@ -64,7 +67,7 @@ button{
 }
 
 .blue-button{
-  background-color: rgb(33,143,254);
+  background-color: $primary;
   color: rgb(235,235,235);
 }
 
