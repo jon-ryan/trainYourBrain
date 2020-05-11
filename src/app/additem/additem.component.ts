@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { DbserviceService } from '../dbservice.service';
 
 @Component({
   selector: 'app-additem',
@@ -15,9 +16,9 @@ export class AdditemComponent implements OnInit {
   answerText: String;
   answerImage: any;
 
-  constructor() { }
+  constructor(private _databaseReference: DbserviceService) { }
 
-  public submitNewItem() {
+  public async submitNewItem() {
     // check for valid input
     if ((this.questionText == undefined && this.questionImage == undefined) ||
         (this.answerText == undefined && this.answerImage == undefined)) {
@@ -27,14 +28,16 @@ export class AdditemComponent implements OnInit {
 
     // TODO
     // deal with files
-    // put into database
 
-    console.log("Question:");
-    console.log(this.questionText);
-    console.log(this.questionImage);
-    console.log("Answer:");
-    console.log(this.answerText);
-    console.log(this.answerImage);
+
+    // put into database
+    await this._databaseReference.putDocument(this.questionText, this.answerText);
+
+    // reset values
+    this.questionText = undefined;
+    this.questionImage = undefined;
+    this.answerText = undefined;
+    this.answerImage = undefined;
   }
 
   ngOnInit(): void {

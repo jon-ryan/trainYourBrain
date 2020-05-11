@@ -9,11 +9,29 @@
       <br>
     </ng-template>
 
-    <!-- insert image here -->
-
+    <!-- insert question image here -->
 
     <!-- submit button -->
-    <button class="button-blue" (click)="showSolution()">Show Solution</button>
+    <ng-template [ngIf]="!showAnswer">
+      <button class="blue-button" (click)="showSolution()">Show Solution</button>
+    </ng-template>
+
+    <br>
+    <br>
+    <ng-template [ngIf]="showAnswer">
+      <h2>Answer</h2>
+      <ng-template [ngIf]="answerText != ''">
+        {{ answerText }}
+        <br>
+        <br>
+      </ng-template>
+
+      <!-- insert answer image here -->
+
+      <!-- continue to next question-->
+      <button class="blue-button" (click)="nextQuestion()">Next Question</button>
+
+    </ng-template>
   </ng-template>
 
   <ng-template #empty>
