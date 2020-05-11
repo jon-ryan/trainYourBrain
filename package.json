@@ -63,7 +63,7 @@
     "@typescript-eslint/parser": "2.27.0",
     "chai": "4.2.0",
     "codelyzer": "5.2.2",
-    "conventional-changelog-cli": "2.0.32",
+    "conventional-changelog-cli": "2.0.34",
     "core-js": "3.6.5",
     "cross-env": "7.0.2",
     "devtron": "1.4.0",
@@ -92,5 +92,11 @@
   },
   "engines": {
     "node": ">=10.13.0"
+  },
+  "dependencies": {
+    "@types/pouchdb": "6.4.0",
+    "pouchdb": "7.2.1",
+    "pouchdb-browser": "7.2.1",
+    "sqlite3": "4.2.0"
   }
 }

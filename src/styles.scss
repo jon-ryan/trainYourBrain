@@ -1,13 +1,75 @@
 /* You can add global styles to this file, and also import other style files */
+
+$primary: rgb(0, 115, 223);
+
 html, body {
   margin: 0;
   padding: 0;
 
   height: 100%;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+}
+
+header {
+  background: $primary;
+  padding: 1em 0;
+
+    a {
+      color: white;
+      text-decoration: none;
+    }
+
+    a.logo {
+      font-weight: bold;
+    }
+
+    nav {
+      float: right;
+
+      ul {
+        list-style-type: none;
+        margin: 0;
+        display: flex;
+
+        li a {
+          padding: 1em;
+
+          &:hover {
+            background: darken($primary, 5%);
+          }
+        }
+      }
+    }
+
+}
+
+button{
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.45cm;
+  padding-left: .7cm;
+  padding-right: .7cm;
+  padding-top: .25cm;
+  padding-bottom: .25cm;
+  border-radius: 5px;
+  font-weight: bolder;
+  cursor: pointer;
+}
+
+.blue-button{
+  background-color: rgb(33,143,254);
+  color: rgb(235,235,235);
 }
 
 /* CAN (MUST) BE REMOVED ! Sample Global style */
+/*
 .container {
   height: 100%;
   display: flex;
@@ -16,8 +78,8 @@ html, body {
   justify-content: center;
 
   background: url(./assets/background.jpg) no-repeat center fixed;
-  -webkit-background-size: cover; /* pour anciens Chrome et Safari */
-  background-size: cover; /* version standardisée */
+  -webkit-background-size: cover; /* pour anciens Chrome et Safari *\/
+  background-size: cover; /* version standardisée *\/
 
   .title {
     color: white;
@@ -47,3 +109,4 @@ html, body {
     }
   }
 }
+*/

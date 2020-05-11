@@ -3,13 +3,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components';
 
 import { HomeRoutingModule } from './home/home-routing.module';
-import { DetailRoutingModule } from './detail/detail-routing.module';
+import { AdditemComponent } from './additem/additem.component';
+import { AllitemsComponent } from './allitems/allitems.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
+  },
+  {
+    path: 'additem',
+    component: AdditemComponent,
+  },
+  {
+    path: 'allitems',
+    component: AllitemsComponent,
   },
   {
     path: '**',
@@ -21,7 +30,6 @@ const routes: Routes = [
   imports: [
     RouterModule.forRoot(routes),
     HomeRoutingModule,
-    DetailRoutingModule
   ],
   exports: [RouterModule]
 })

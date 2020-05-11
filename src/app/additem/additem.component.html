@@ -1,0 +1,43 @@
+<div class="container">
+    <h1>Add a new Item</h1>
+    <h2>Question:</h2>
+    Question text:
+    <br>
+    <textarea id="question-text" name="question-text" [(ngModel)]="questionText" rows="4" cols="50"></textarea>
+    <br>
+    <br>
+    Add an image:
+    <br>
+    <input type="file" id="question-image" [(ngModel)]="questionImage" name="question-image">
+    <br>
+    <br>
+    <br>
+    <h2>Answer:</h2>
+    Answer text:
+    <br>
+    <textarea id="answer-text" name="answer-text" [(ngModel)]="answerText" rows="4" cols="50"></textarea>
+    <br>
+    <br>
+    Answer image:
+    <br>
+    <input type="file" id="answer-image" [(ngModel)]="answerImage" name="answer-image">
+    <br>
+    <br>
+    <br>
+    <button class="blue-button" (click)="submitNewItem()">Add</button>
+
+    <br>
+    <br>
+    <div [style.color]="'crimson'">
+        <ng-template [ngIf]="submitError" [ngIfElse]="none" class="error-text">
+            <b>Error while adding element:</b>
+            <br>
+            Please provide some text or an image for both, question and answer.
+        </ng-template>
+        <ng-template #none>
+
+        </ng-template>
+
+    </div>
+
+</div>
