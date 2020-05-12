@@ -1,6 +1,11 @@
 <div class="container">
-    <h1>Add a new Item</h1>
-    <h2>Question:</h2>
+    <h2>Add a new Item</h2>
+    <!-- description -->
+    Here you can add new facts and knowledge you want to train yourself on. If your task requires you
+    to remember facts about an image or the solution requires a drawing, you are able to include images
+    as a question or/and an answer. Please note that in any case you have to provide some text for the
+    question and the answer.
+    <h3>Question:</h3>
     Question text:
     <br>
     <textarea id="question-text" name="question-text" [(ngModel)]="questionText" rows="4" cols="50"></textarea>
@@ -12,7 +17,7 @@
     <br>
     <br>
     <br>
-    <h2>Answer:</h2>
+    <h3>Answer:</h3>
     Answer text:
     <br>
     <textarea id="answer-text" name="answer-text" [(ngModel)]="answerText" rows="4" cols="50"></textarea>

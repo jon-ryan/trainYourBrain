@@ -10,11 +10,19 @@ import { DbserviceService } from '../dbservice.service';
 export class HomeComponent implements OnInit {
   // local counter for how many items are currently in the database
   itemsInDatabase: number = 0;
+
   // properties for the document
+  questionID: String = "";
+  questionRev: String = "";
+
   questionText: String = "";
   // questionImage
+
   answerText: String = "";
   // answerImage
+
+  questionTotalAnswered: number = 0;
+  questionCorrectAnswered: number = 0;
 
   // boolean for showing the answer
   showAnswer: boolean = false;
@@ -46,23 +54,62 @@ export class HomeComponent implements OnInit {
   private async getRandomItem() {
     var item = await this._databaseReference.getRandom();
 
-    console.log(item);
-
     // populate the local properties
+    this.questionID = item["_id"];
+    this.questionRev = item["_rev"];
+
     this.questionText = item["questionText"];
     this.answerText = item["answerText"];
+
+    this.questionTotalAnswered = item["total"];
+    this.questionCorrectAnswered = item["correct"];
   }
 
 
+  // showSolution will unhide the answer
   showSolution() {
+    // show answer
     this.showAnswer = true;
   }
 
-  nextQuestion() {
-    // reset showAnswer to false
+  // skip Question will skip a question. It will not increment the 'total' or 'correct' counter
+  skipQuestion() {
+    // make sure the anser is hidden
     this.showAnswer = false;
 
     // get the next question
     this.getRandomItem();
   }
+
+  // correctAnswer will increment total and correct answered, update the item
+  // and go to the next question
+  correctAnswer() {
+    // hide the answer
+    this.showAnswer = false;
+
+    // increment question counters
+    this.questionCorrectAnswered++;
+    this.questionTotalAnswered++;
+
+    // update database
+
+    // next question
+    this.getRandomItem();
+  }
+
+  // incorrectAnswer will increment total answered, upate the item
+  // and go to the next question
+  incorrectAnswer() {
+    // hide the answer
+    this.showAnswer = false;
+
+    // increment question counters
+    this.questionTotalAnswered++;
+
+    // update database
+
+    // next question
+    this.getRandomItem();
+  }
+
 }

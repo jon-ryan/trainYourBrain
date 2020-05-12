@@ -20,8 +20,8 @@ export class AdditemComponent implements OnInit {
 
   public async submitNewItem() {
     // check for valid input
-    if ((this.questionText == undefined && this.questionImage == undefined) ||
-        (this.answerText == undefined && this.answerImage == undefined)) {
+    // a question Text and answer Text is always required
+    if (this.questionText == undefined || this.answerText == undefined) {
       this.submitError = true;
       return;
     }

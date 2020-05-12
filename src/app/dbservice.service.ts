@@ -37,10 +37,6 @@ export class DbserviceService {
   public async getRandom () {
     // generate a random number
     var randomNumber: number = Math.floor(Math.random() * this.itemCount - 1) + 1;
-    // debug
-    console.log("item count: " + this.itemCount);
-    console.log("Random number: " + randomNumber);
-    console.log("Length of array: " + this.documentIDs.length);
 
     var doc: Map<String,any>;
     try {
@@ -81,6 +77,8 @@ export class DbserviceService {
         _id: timeString,
         questionText: questionText,
         answerText: answerText,
+        total: 0,
+        correct: 0,
       });
 
       // debug
@@ -89,6 +87,18 @@ export class DbserviceService {
       console.log(err);
     }
 
+  }
+
+  public async updateDocument(id: string, rev: string, questionText: string, answerText: string, total: number, correct: number) {
+    // turn it into a document
+    var doc = {_id: id, _rev: rev, questionText: questionText, answerText: answerText, total: total, correct: correct};
+
+    // update database
+    try {
+      await this.database.put(doc);
+    } catch (err) {
+
+    }
   }
 
   // getItemCount returns how many items are in the database
