@@ -8,18 +8,29 @@ const args = process.argv.slice(1),
 
 function createWindow(): BrowserWindow {
 
+  // get display size
+  const electronScreen = screen;
+  const size = electronScreen.getPrimaryDisplay().workAreaSize;
+
+  const windowWidth = 900;
+  const windowHeight = size.height < 600 ? size.height - 100 : 600;
 
   // Create the browser window.
   win = new BrowserWindow({
     x: 0,
     y: 0,
-    width: 900,
-    height: 600,
+    width: windowWidth,
+    height: windowHeight,
+    minWidth: 850,
+    minHeight: 300,
     webPreferences: {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
     },
   });
+
+  // remove menu bar
+  win.removeMenu();
 
   if (serve) {
 
