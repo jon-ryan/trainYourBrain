@@ -10,10 +10,10 @@ export class AdditemComponent implements OnInit {
 
   submitError: boolean = false;
 
-  questionText: String;
+  questionText: string;
   questionImage: any;
 
-  answerText: String;
+  answerText: string;
   answerImage: any;
 
   constructor(private _databaseReference: DbserviceService) { }
