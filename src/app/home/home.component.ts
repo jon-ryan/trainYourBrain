@@ -33,16 +33,15 @@ export class HomeComponent implements OnInit {
 
   private async initialSetup() {
     this.itemsInDatabase = await this._databaseReference.getItemCountFromDatabase();
+    if (this.itemsInDatabase == 0) {
+      return;
+    }
     await this.getRandomItem();
   }
 
   ngOnInit(): void {
-    // get how many items are in the database
-    this.getItemCountInDatabase();
-    // if the db is not empty get a question
-    if (this.itemsInDatabase != 0) {
-      this.getRandomItem();
-    }
+    // call async init method
+    this.initialSetup();
   }
 
   // getItemCountInDatabase will retrieve the amount of items in the database
@@ -52,6 +51,11 @@ export class HomeComponent implements OnInit {
   }
 
   private async getRandomItem() {
+    // check if there are items that can be fetched
+    if (this.itemsInDatabase == 0) {
+      return;
+    }
+
     var item = await this._databaseReference.getRandom();
 
     // populate the local properties
