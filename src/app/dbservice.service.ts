@@ -117,6 +117,7 @@ export class DbserviceService {
     }
   }
 
+
   private async getDocumentIDs() {
     try {
       // get the data from the database
@@ -132,8 +133,29 @@ export class DbserviceService {
     }
   }
 
-  // debug
-  public printDocCount() {
-    console.log(this.itemCount);
+  public async getAllDocuments() {
+    try {
+      // get all items
+      var result = await this.database.allDocs({include_docs: true})
+
+      // add every document to an array
+      var tmpArray: Array<any> = [];
+      var i: number = 0;
+      for (i = 0; i < result.total_rows; i++) {
+        tmpArray.push(result.rows[i].doc);
+      }
+
+      return tmpArray;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public async deleteItem(id: string, rev: string) {
+    try {
+      await this.database.remove(id, rev);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

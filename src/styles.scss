@@ -18,6 +18,14 @@ html, body {
   margin: 0 auto;
 }
 
+.float-right {
+  float: right;
+}
+
+.clearfix {
+  clear: both;
+}
+
 header {
   background: $primary;
   padding: 1em 0;

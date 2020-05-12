@@ -12,13 +12,13 @@ export class HomeComponent implements OnInit {
   itemsInDatabase: number = 0;
 
   // properties for the document
-  questionID: String = "";
-  questionRev: String = "";
+  questionID: string = "";
+  questionRev: string = "";
 
-  questionText: String = "";
+  questionText: string = "";
   // questionImage
 
-  answerText: String = "";
+  answerText: string = "";
   // answerImage
 
   questionTotalAnswered: number = 0;
@@ -92,7 +92,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-
+    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered);
     // next question
     this.getRandomItem();
   }
@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-
+    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered);
     // next question
     this.getRandomItem();
   }
