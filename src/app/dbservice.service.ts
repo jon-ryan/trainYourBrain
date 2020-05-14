@@ -80,9 +80,6 @@ export class DbserviceService {
         total: 0,
         correct: 0,
       });
-
-      // debug
-      console.log(response);
     } catch (err) {
       console.log(err);
     }
@@ -118,16 +115,23 @@ export class DbserviceService {
   }
 
 
-  private async getDocumentIDs() {
+  public async getDocumentIDs() {
     try {
       // get the data from the database
       var result = await this.database.allDocs();
+
+      // reset array
+      this.documentIDs = [];
 
       // add every id per row
       var i: number = 0;
       for (i = 0; i < result.total_rows; i++) {
         this.documentIDs.push(result.rows[i].id);
       }
+
+      // update item count
+      this.getItemCountFromDatabase();
+
     } catch (err) {
       console.log(err);
     }
@@ -153,7 +157,10 @@ export class DbserviceService {
 
   public async deleteItem(id: string, rev: string) {
     try {
+      // remove document
       await this.database.remove(id, rev);
+      // update the document id array
+      this.getDocumentIDs();
     } catch (err) {
       console.log(err);
     }
