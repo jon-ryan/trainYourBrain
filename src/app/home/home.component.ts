@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 //import { Router } from '@angular/router';
 import { DbserviceService } from '../dbservice.service';
+import { SessionDBService } from '../session-db.service';
 
 @Component({
   selector: 'app-home',
@@ -27,7 +28,11 @@ export class HomeComponent implements OnInit {
   // boolean for showing the answer
   showAnswer: boolean = false;
 
-  constructor(private _databaseReference: DbserviceService) {
+  // session variables
+  totalThisSession: number = 0;
+  correctThisSession: number = 0;
+
+  constructor(private _databaseReference: DbserviceService, private _sessionReference: SessionDBService) {
     this.initialSetup();
   }
 
@@ -42,6 +47,10 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // call async init method
     this.initialSetup();
+
+    // get session counter
+    this.totalThisSession = this._sessionReference.getTotalSession();
+    this.correctThisSession = this._sessionReference.getCorrectSession();
   }
 
   // getItemCountInDatabase will retrieve the amount of items in the database
@@ -91,6 +100,14 @@ export class HomeComponent implements OnInit {
     // hide the answer
     this.showAnswer = false;
 
+    // increment session counter
+    this.totalThisSession++;
+    this.correctThisSession++;
+
+    // update session service
+    this._sessionReference.incrementCorrectSession();
+    this._sessionReference.incrementTotalSession();
+
     // increment question counters
     this.questionCorrectAnswered++;
     this.questionTotalAnswered++;
@@ -106,6 +123,12 @@ export class HomeComponent implements OnInit {
   incorrectAnswer() {
     // hide the answer
     this.showAnswer = false;
+
+    // increment session counter
+    this.totalThisSession++;
+
+    // update session service
+    this._sessionReference.incrementTotalSession();
 
     // increment question counters
     this.questionTotalAnswered++;

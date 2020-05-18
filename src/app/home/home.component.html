@@ -1,52 +1,64 @@
-<div class="container">
+<div class="home-header">
   <h2>Question</h2>
-  <ng-template [ngIf]="itemsInDatabase != 0" [ngIfElse]="empty">
-
-    <!-- only display the text element if there is actually a text to display-->
-    <ng-template [ngIf]="questionText != ''">
-      {{ questionText }}
-      <br>
-      <br>
-    </ng-template>
-
-    <!-- insert question image here -->
-
-    <!-- submit button -->
-    <ng-template [ngIf]="!showAnswer">
-      <button class="blue-button" (click)="showSolution()">Show Solution</button>
-      <button class="secondary-button" (click)="skipQuestion()" [style.margin-left]="'20px'">Skip</button>
-    </ng-template>
-
-    <br>
-    <br>
-    <ng-template [ngIf]="showAnswer">
-      <h2>Answer</h2>
-      <ng-template [ngIf]="answerText != ''">
-        {{ answerText }}
-        <br>
-        <br>
-      </ng-template>
-
-      <!-- insert answer image here -->
-
-      <!-- continue to next question-->
-      <button class="blue-button" (click)="correctAnswer()">Correct</button>
-      <button class="red-button" (click)="incorrectAnswer()" [style.margin-left]="'20px'">Incorrect</button>
-
-    </ng-template>
-  </ng-template>
-
-  <ng-template #empty>
-    <p>
-      <br>
-      Seems like there is nothing you can train your brain on. Head over to 'Add Question' to add something you want to test your self on.
-      <br>
-      <br>
-      To get an overview of how to use this app, head over to 'About/Donate' to get more information.
-    </p>
-  </ng-template>
-
+  <div>This Session: {{ totalThisSession }} Correct: {{ correctThisSession }}</div>
 </div>
+
+
+<ng-template [ngIf]="itemsInDatabase != 0" [ngIfElse]="empty">
+
+  <!-- only display the text element if there is actually a text to display-->
+  <ng-template [ngIf]="questionText != ''">
+    {{ questionText }}
+    <br>
+    <br>
+  </ng-template>
+
+  <!-- insert question image here -->
+
+
+  <!-- textarea for own solution -->
+  <h3>Your Answer</h3>
+  <textarea rows="4" cols="70"></textarea>
+  <br>
+  <br>
+
+  <!-- submit button -->
+  <ng-template [ngIf]="!showAnswer">
+    <button class="blue-button" (click)="showSolution()">Show Solution</button>
+    <button class="secondary-button" (click)="skipQuestion()" [style.margin-left]="'20px'">Skip</button>
+  </ng-template>
+
+  <br>
+  <br>
+  <ng-template [ngIf]="showAnswer">
+    <h2>Answer</h2>
+    <ng-template [ngIf]="answerText != ''">
+      {{ answerText }}
+      <br>
+      <br>
+    </ng-template>
+
+    <!-- insert answer image here -->
+
+    <!-- continue to next question-->
+    <button class="blue-button" (click)="correctAnswer()">Correct</button>
+    <button class="red-button" (click)="incorrectAnswer()" [style.margin-left]="'20px'">Incorrect</button>
+
+  </ng-template>
+</ng-template>
+
+<ng-template #empty>
+  <p>
+    <br>
+    Seems like there is nothing you can train your brain on. Head over to 'Add Question' to add something you want to
+    test your self on.
+    <br>
+    <br>
+    To get an overview of how to use this app, head over to 'About/Donate' to get more information.
+  </p>
+</ng-template>
+
+
 
 
 <!--

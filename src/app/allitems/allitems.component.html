@@ -1,39 +1,37 @@
-<div class="container">
-    <h2>All your questions are listed here</h2>
-    <br>
+<h2>All your questions are listed here</h2>
+<br>
 
-    <!-- list all items with ngFor-->
-    <ng-template [ngIf]="allItems.length != 0" [ngIfElse]="empty">
-        <div class="list-element" *ngFor="let item of allItems; let i = index">
-            <strong>{{ item["questionText"] }}</strong>
-            <br>
-            {{ item["answerText"] }}
-            <br>
-            <br>
-            <div class="space-evenly">
-                <div>Total Times answered: {{ item["total"]}}</div>
-                <div>Times Correctly answered: {{ item["correct"]}}</div>
-                <div>Success Rate: {{item["correct"] / item["total"] * 100 | number: '2.2-2'}}%</div>
-                <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg">
-            </div>
-
-            <ng-template [ngIf]="toggleDeleteArray[i]">
-                <div>
-                    <br>
-                    <div class="float-right">
-                        <button class="red-button" (click)="deleteItem(i, item['_id'], item['_rev'])"
-                            [style.margin-right]="'20px'">Delete</button>
-                        <button class="blue-button" (click)="toggleConfirmDelete(i)">Keep</button>
-                    </div>
-                    <strong>Are you sure you want to delete this item?</strong>
-                    <div class="clearfix"></div>
-                </div>
-            </ng-template>
-            <br>
+<!-- list all items with ngFor-->
+<ng-template [ngIf]="allItems.length != 0" [ngIfElse]="empty">
+    <div class="list-element" *ngFor="let item of allItems; let i = index">
+        <strong>{{ item["questionText"] }}</strong>
+        <br>
+        {{ item["answerText"] }}
+        <br>
+        <br>
+        <div class="space-evenly">
+            <div>Total Times answered: {{ item["total"]}}</div>
+            <div>Times Correctly answered: {{ item["correct"]}}</div>
+            <div>Success Rate: {{item["correct"] / item["total"] * 100 | number: '2.2-2'}}%</div>
+            <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg">
         </div>
-    </ng-template>
 
-    <ng-template #empty>
-        There is nothing here yet. Add some questions first!
-    </ng-template>
-</div>
+        <ng-template [ngIf]="toggleDeleteArray[i]">
+            <div>
+                <br>
+                <div class="float-right">
+                    <button class="red-button" (click)="deleteItem(i, item['_id'], item['_rev'])"
+                        [style.margin-right]="'20px'">Delete</button>
+                    <button class="blue-button" (click)="toggleConfirmDelete(i)">Keep</button>
+                </div>
+                <strong>Are you sure you want to delete this item?</strong>
+                <div class="clearfix"></div>
+            </div>
+        </ng-template>
+        <br>
+    </div>
+</ng-template>
+
+<ng-template #empty>
+    There is nothing here yet. Add some questions first!
+</ng-template>

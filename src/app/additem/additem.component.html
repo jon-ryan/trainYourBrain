@@ -1,48 +1,45 @@
-<div class="container">
-    <h2>Add a new Item</h2>
-    <!-- description -->
-    Here you can add new facts and knowledge you want to train yourself on. If your task requires you
-    to remember facts about an image or the solution requires a drawing, you are able to include images
-    as a question or/and an answer. Please note that in any case you have to provide some text for the
-    question and the answer.
-    <h3>Question</h3>
-    Question text
-    <br>
-    <textarea id="question-text" name="question-text" [(ngModel)]="questionText" rows="4" cols="70"></textarea>
-    <br>
-    <br>
-    Add an image
-    <br>
-    <input type="file" id="question-image" [(ngModel)]="questionImage" name="question-image">
-    <br>
-    <br>
-    <br>
-    <h3>Answer</h3>
-    Answer text
-    <br>
-    <textarea id="answer-text" name="answer-text" [(ngModel)]="answerText" rows="4" cols="70"></textarea>
-    <br>
-    <br>
-    Answer image
-    <br>
-    <input type="file" id="answer-image" [(ngModel)]="answerImage" name="answer-image">
-    <br>
-    <br>
-    <br>
-    <button class="blue-button" (click)="submitNewItem()">Add</button>
+<h2>Add a new Item</h2>
+<!-- description -->
+Here you can add new facts and knowledge you want to train yourself on. If your task requires you
+to remember facts about an image or the solution requires a drawing, you are able to include images
+as a question or/and an answer. Please note that in any case you have to provide some text for the
+question and the answer.
+<h3>Question</h3>
+Question text
+<br>
+<textarea id="question-text" name="question-text" [(ngModel)]="questionText" rows="4" cols="70"></textarea>
+<br>
+<br>
+Add an image
+<br>
+<input type="file" id="question-image" [(ngModel)]="questionImage" name="question-image">
+<br>
+<br>
+<br>
+<h3>Answer</h3>
+Answer text
+<br>
+<textarea id="answer-text" name="answer-text" [(ngModel)]="answerText" rows="4" cols="70"></textarea>
+<br>
+<br>
+Answer image
+<br>
+<input type="file" id="answer-image" [(ngModel)]="answerImage" name="answer-image">
+<br>
+<br>
+<br>
+<button class="blue-button" (click)="submitNewItem()">Add</button>
 
-    <br>
-    <br>
-    <div [style.color]="'crimson'">
-        <ng-template [ngIf]="submitError" [ngIfElse]="none" class="error-text">
-            <b>Error while adding element:</b>
-            <br>
-            Please provide some text or an image for both, question and answer.
-        </ng-template>
-        <ng-template #none>
+<br>
+<br>
+<div [style.color]="'crimson'">
+    <ng-template [ngIf]="submitError" [ngIfElse]="none" class="error-text">
+        <b>Error while adding element:</b>
+        <br>
+        Please provide some text or an image for both, question and answer.
+    </ng-template>
+    <ng-template #none>
 
-        </ng-template>
-
-    </div>
+    </ng-template>
 
 </div>
