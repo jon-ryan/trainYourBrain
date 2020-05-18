@@ -105,8 +105,7 @@ export class HomeComponent implements OnInit {
     this.correctThisSession++;
 
     // update session service
-    this._sessionReference.incrementCorrectSession();
-    this._sessionReference.incrementTotalSession();
+    this._sessionReference.incrementCorrectAndTotalSession();
 
     // increment question counters
     this.questionCorrectAnswered++;

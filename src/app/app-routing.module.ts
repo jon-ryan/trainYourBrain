@@ -6,6 +6,7 @@ import { HomeRoutingModule } from './home/home-routing.module';
 import { AdditemComponent } from './additem/additem.component';
 import { AllitemsComponent } from './allitems/allitems.component';
 import { AboutComponent } from './about/about.component';
+import { SessionsComponent } from './sessions/sessions.component';
 
 const routes: Routes = [
   {
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'about',
     component: AboutComponent,
+  },
+  {
+    path: 'sessions',
+    component: SessionsComponent,
   },
   {
     path: '**',

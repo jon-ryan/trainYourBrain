@@ -73,7 +73,7 @@ export class DbserviceService {
 
     // create a new document
     try {
-      var response = await this.database.put({
+      await this.database.put({
         _id: timeString,
         questionText: questionText,
         answerText: answerText,

@@ -42,7 +42,4 @@ export class AllitemsComponent implements OnInit {
   toggleConfirmDelete(i: number) {
     this.toggleDeleteArray[i] = !this.toggleDeleteArray[i];
   }
-
-
-
 }

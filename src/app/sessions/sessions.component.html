@@ -1,0 +1,46 @@
+<h2>Sessions</h2>
+<!-- total questions answered -->
+<h3>Total Questions answered</h3>
+<div class="space-evenly">
+    <div>Average per Session: {{  totalAverage | number: '.1-1'}}</div>
+    <div>Total: {{ totalQuestions }} </div>
+    <div>Last Session: {{ totalLastSession }}</div>
+</div>
+<br>
+
+<!-- correctly answered -->
+<h3>Questions answered correctly</h3>
+<div class="space-evenly">
+    <div>Average per Session: {{ correctAverage | number: '.1-1'}} </div>
+    <div>Total: {{ totalCorrectQuestions }}</div>
+    <div>Last Session: {{ correctLastSession }}</div>
+</div>
+
+<br>
+<br>
+
+<!-- all sessions -->
+<h3>Session History</h3>
+
+<div class="list-element" *ngFor="let session of allSessions; let i = index">
+    <div class="space-evenly">
+        <div>Date: {{ session["_id"] }}</div>
+        <div>Total: {{ session["totalSession"] }}</div>
+        <div>Correct: {{ session["correctSession"] }}</div>
+        <div>Average: {{ session["correctSession"] / session["totalSession"] * 100 | number: '2.1-1' }}%</div>
+        <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg">
+    </div>
+
+    <ng-template [ngIf]="toggleDeleteArray[i]">
+        <div>
+            <br>
+            <div class="float-right">
+                <button class="red-button" (click)="deleteItem(i, session['_id'], session['_rev'])"
+                    [style.margin-right]="'20px'">Delete</button>
+                <button class="blue-button" (click)="toggleConfirmDelete(i)">Keep</button>
+            </div>
+            <strong>Are you sure you want to delete this item?</strong>
+            <div class="clearfix"></div>
+        </div>
+    </ng-template>
+</div>

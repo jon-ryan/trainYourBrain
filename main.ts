@@ -12,7 +12,7 @@ function createWindow(): BrowserWindow {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-  const windowWidth = 900;
+  const windowWidth = 950;
   const windowHeight = size.height < 600 ? size.height - 100 : 600;
 
   // Create the browser window.

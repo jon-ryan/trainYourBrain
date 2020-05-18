@@ -20,6 +20,7 @@ import { AppComponent } from './app.component';
 import { AdditemComponent } from './additem/additem.component';
 import { AllitemsComponent } from './allitems/allitems.component';
 import { AboutComponent } from './about/about.component';
+import { SessionsComponent } from './sessions/sessions.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -27,7 +28,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [AppComponent, AdditemComponent, AllitemsComponent, AboutComponent],
+  declarations: [AppComponent, AdditemComponent, AllitemsComponent, AboutComponent, SessionsComponent],
   imports: [
     BrowserModule,
     FormsModule,
