@@ -13,10 +13,14 @@ export class AllitemsComponent implements OnInit {
 
   toggleDeleteArray: Array<boolean> = [];
 
+  toggleDeleteAll: boolean = false;
+
   constructor(private _databaseReference: DbserviceService) { }
 
   ngOnInit(): void {
     this.getAllItems();
+
+    this.toggleDeleteAll = false;
   }
 
   // getAllItems gets all items from the database
@@ -39,7 +43,20 @@ export class AllitemsComponent implements OnInit {
     this.getAllItems();
   }
 
-  toggleConfirmDelete(i: number) {
+  public toggleConfirmDelete(i: number) {
     this.toggleDeleteArray[i] = !this.toggleDeleteArray[i];
+  }
+
+  public toggleConfirmDeleteAll() {
+    this.toggleDeleteAll = !this.toggleDeleteAll;
+  }
+
+  public async deleteAllDocuments() {
+
+    this.toggleDeleteAll = false;
+
+    await this._databaseReference.bulkDelete();
+
+    this.getAllItems();
   }
 }

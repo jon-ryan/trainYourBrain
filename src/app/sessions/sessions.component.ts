@@ -16,20 +16,44 @@ export class SessionsComponent implements OnInit {
   totalAverage: number = 0;
   totalQuestions: number = 0;
   totalLastSession: number = 0;
+  totalThisSession: number = 0;
 
   correctAverage: number = 0;
   totalCorrectQuestions: number = 0;
   correctLastSession: number = 0;
+  correctThisSession: number = 0;
+
+  toggleDeleteAll: boolean = false;
 
 
   constructor(private _sessionsDB: SessionDBService) { }
 
   ngOnInit(): void {
     this.getAllItems();
+
+    this.toggleDeleteAll = false;
+  }
+
+  public toggleConfirmDeleteAll() {
+    this.toggleDeleteAll = !this.toggleDeleteAll;
+  }
+
+  public async deleteAllDocuments() {
+    // hide confirm dialog
+    this.toggleDeleteAll = false;
+    // call delete
+    await this._sessionsDB.deleteAllDocuments();
+    // update sessions
+    this.getAllItems();
   }
 
   private async getAllItems() {
     this.allSessions = await this._sessionsDB.getAllDocuments();
+
+    if (this.allSessions.length == 0) {
+      return;
+    }
+
     // reset toggle array
     this.toggleDeleteArray = [];
 
@@ -51,6 +75,10 @@ export class SessionsComponent implements OnInit {
     // average
     this.totalAverage = this.totalQuestions / this.allSessions.length;
     this.correctAverage = this.totalCorrectQuestions / this.allSessions.length;
+
+    // current session
+    this.totalThisSession = this.allSessions[0].totalSession;
+    this.correctThisSession = this.allSessions[0].correctSession;
 
     // last session
     if (this.allSessions.length == 1) {

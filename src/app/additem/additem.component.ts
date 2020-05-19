@@ -42,5 +42,4 @@ export class AdditemComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }

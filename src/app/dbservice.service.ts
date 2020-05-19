@@ -17,7 +17,7 @@ export class DbserviceService {
   private itemCount: number = 0;
 
 
-  constructor() { 
+  constructor() {
     if (!this.isInstansiated) {
       // instantiate
       this.database = new PouchDB('questions');
@@ -34,11 +34,11 @@ export class DbserviceService {
   }
 
   // getRandom returns a random item from the database
-  public async getRandom () {
+  public async getRandom() {
     // generate a random number
     var randomNumber: number = Math.floor(Math.random() * this.itemCount - 1) + 1;
 
-    var doc: Map<String,any>;
+    var doc: Map<String, any>;
     try {
       doc = await this.database.get(this.documentIDs[randomNumber]);
     } catch (err) {
@@ -48,7 +48,7 @@ export class DbserviceService {
   }
 
   // getSpecific returns the item at the position id
-  public async getSpecific (id: number) {
+  public async getSpecific(id: number) {
     var doc: Map<String, any>;
 
     try {
@@ -60,7 +60,7 @@ export class DbserviceService {
   }
 
   // putDocument adds a new item to the database and the array in memory
-  public async putDocument (questionText: String, answerText: String, ) {
+  public async putDocument(questionText: String, answerText: String,) {
     // increment itemCount
     this.itemCount++;
 
@@ -88,7 +88,7 @@ export class DbserviceService {
 
   public async updateDocument(id: string, rev: string, questionText: string, answerText: string, total: number, correct: number) {
     // turn it into a document
-    var doc = {_id: id, _rev: rev, questionText: questionText, answerText: answerText, total: total, correct: correct};
+    var doc = { _id: id, _rev: rev, questionText: questionText, answerText: answerText, total: total, correct: correct };
 
     // update database
     try {
@@ -140,7 +140,7 @@ export class DbserviceService {
   public async getAllDocuments() {
     try {
       // get all items
-      var result = await this.database.allDocs({include_docs: true})
+      var result = await this.database.allDocs({ include_docs: true })
 
       // add every document to an array
       var tmpArray: Array<any> = [];
@@ -164,5 +164,41 @@ export class DbserviceService {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  /*public async bulkCreate(num: number) {
+    console.log("Bulk create initiated with: ", num);
+    var i: number = 0;
+
+    for (i = 0; i < num; i++) {
+      try {
+        var response = await this.database.put({
+          _id: i.toString(),
+          questionText: "This is a usual question text. It has some size but is not tooooo long. Still some length though." + i.toString(),
+          answerText: "This is the answer to the question. it might be shorter or longer thant the question itself.",
+          total: 0,
+          correct: 0,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+
+      //this.bulkArray.push(response);
+    }
+
+    this.getDocumentIDs();
+
+    console.log("Bulk create executed");
+  }*/
+
+  public async bulkDelete() {
+    // destroy old database
+    await this.database.destroy();
+
+    // create new database
+    this.database = new PouchDB('questions');
+
+    this.getItemCountFromDatabase();
+    this.getDocumentIDs();
   }
 }

@@ -144,4 +144,12 @@ export class SessionDBService {
       console.log(err);
     }
   }
+
+  public async deleteAllDocuments() {
+    // destroy old db
+    await this.database.destroy()
+
+    // create new db
+    this.database = new PouchDB('sessions');
+  }
 }

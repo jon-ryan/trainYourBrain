@@ -3,9 +3,30 @@
 
 <!-- list all items with ngFor-->
 <ng-template [ngIf]="allItems.length != 0" [ngIfElse]="empty">
-    <div class="list-element" *ngFor="let item of allItems; let i = index">
-        <strong>{{ item["questionText"] }}</strong>
+    <br>
+    <div class="space-evenly">
+        <div>If you want to clean up, you can delete all your questions and make a fresh start.</div>
+        <img (click)="toggleConfirmDeleteAll()" [style.cursor]="'pointer'" src="../../assets/keyboard_arrow_down-white-24dp.svg">
+    </div>
+    <br>
+    <br>
+
+    <ng-template [ngIf]="toggleDeleteAll">
+        Are you sure you want to delete all questions? This action can not be undone.
+
         <br>
+        <br>
+        <div class="float-right">
+            <button class="red-button" (click)="deleteAllDocuments()" [style.margin-right]="'20px'">Delete All</button>
+            <button class="blue-button" (click)="toggleConfirmDeleteAll()">Keep All</button>
+        </div>
+        <br>
+        <br>
+    </ng-template>
+
+    <div class="list-element" *ngFor="let item of allItems; let i = index">
+        <br>
+        <div class="question-formatting">{{ item["questionText"] }}</div>
         {{ item["answerText"] }}
         <br>
         <br>
@@ -13,7 +34,7 @@
             <div>Total Times answered: {{ item["total"]}}</div>
             <div>Times Correctly answered: {{ item["correct"]}}</div>
             <div>Success Rate: {{item["correct"] / item["total"] * 100 | number: '2.1-1'}}%</div>
-            <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg">
+            <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg" [style.cursor]="'pointer'">
         </div>
 
         <ng-template [ngIf]="toggleDeleteArray[i]">

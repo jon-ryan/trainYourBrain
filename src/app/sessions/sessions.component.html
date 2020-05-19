@@ -1,11 +1,14 @@
 <h2>Sessions</h2>
 <!-- total questions answered -->
-<h3>Total Questions answered</h3>
+<br>
+<h3>Questions answered</h3>
 <div class="space-evenly">
     <div>Average per Session: {{  totalAverage | number: '.1-1'}}</div>
     <div>Total: {{ totalQuestions }} </div>
+    <div>This Session: {{ totalThisSession }}</div>
     <div>Last Session: {{ totalLastSession }}</div>
 </div>
+<br>
 <br>
 
 <!-- correctly answered -->
@@ -13,8 +16,33 @@
 <div class="space-evenly">
     <div>Average per Session: {{ correctAverage | number: '.1-1'}} </div>
     <div>Total: {{ totalCorrectQuestions }}</div>
+    <div>This Session: {{ correctThisSession }}</div>
     <div>Last Session: {{ correctLastSession }}</div>
 </div>
+
+<br>
+<br>
+
+<h3>Clear Session History</h3>
+<div class="space-evenly">
+    <div>If you want to clean up the session history, you can delete all your records and make a fresh start.</div>
+    <img (click)="toggleConfirmDeleteAll()" [style.cursor]="'pointer'"
+        src="../../assets/keyboard_arrow_down-white-24dp.svg">
+</div>
+<br>
+<br>
+
+<ng-template [ngIf]="toggleDeleteAll">
+    Are you sure you want to delete all records? This action can not be undone.
+    <br>
+    <br>
+    <div class="float-right">
+        <button class="red-button" (click)="deleteAllDocuments()" [style.margin-right]="'20px'">Delete All</button>
+        <button class="blue-button" (click)="toggleConfirmDeleteAll()">Keep All</button>
+    </div>
+    <br>
+    <br>
+</ng-template>
 
 <br>
 <br>
@@ -28,7 +56,7 @@
         <div>Total: {{ session["totalSession"] }}</div>
         <div>Correct: {{ session["correctSession"] }}</div>
         <div>Average: {{ session["correctSession"] / session["totalSession"] * 100 | number: '2.1-1' }}%</div>
-        <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg">
+        <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg" [style.cursor]="'pointer'">
     </div>
 
     <ng-template [ngIf]="toggleDeleteArray[i]">
@@ -44,3 +72,6 @@
         </div>
     </ng-template>
 </div>
+
+<br>
+<br>
