@@ -8,8 +8,11 @@ import { DbserviceService } from '../dbservice.service';
 })
 export class AllitemsComponent implements OnInit {
 
-  // array which holds all db objects
+  // array which holds all question objects
   allItems: Array<any> = [];
+
+  existingCategories: Array<any> = [];
+  selectedCategory: string = "";
 
   toggleDeleteArray: Array<boolean> = [];
 
@@ -19,7 +22,7 @@ export class AllitemsComponent implements OnInit {
 
   ngOnInit(): void {
     this.getAllItems();
-
+    this.getAllCategories();
     this.toggleDeleteAll = false;
   }
 
@@ -35,7 +38,11 @@ export class AllitemsComponent implements OnInit {
     }
   }
 
-  private async getAllItemsWithSpecificCategory(category: string) {
+  private async getAllCategories() {
+    this.existingCategories = await this._databaseReference.getAllCategories();
+  }
+
+  private async getFilteredQuestions(category: string) {
     this.allItems = await this._databaseReference.getAllDocumentsWithSpecificCategory(category);
 
     // initialize toggleDelete
@@ -46,8 +53,16 @@ export class AllitemsComponent implements OnInit {
     }
   }
 
+  public filterByCategory() {
+    if (this.selectedCategory != "") {
+      this.getFilteredQuestions(this.selectedCategory);
+    } else {
+      this.getAllItems();
+    }
+  }
+
   // deleteItem will prompt the database to delete the specified item
-  async deleteItem(i: number, id: string, rev: string) {
+  public async deleteItem(i: number, id: string, rev: string) {
     // close confirm delete dialog
     this.toggleDeleteArray[i] = false;
     // delete item

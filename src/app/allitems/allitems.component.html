@@ -24,6 +24,14 @@
         <br>
     </ng-template>
 
+    <br>
+    <div class="space-evenly limit-width">
+        <div>Filter by category</div>
+        <select [(ngModel)]="selectedCategory" (change)="filterByCategory()">
+            <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
+        </select>
+    </div>
+
     <div class="list-element" *ngFor="let item of allItems; let i = index">
         <br>
         <div class="question-formatting">{{ item["questionText"] }}</div>
