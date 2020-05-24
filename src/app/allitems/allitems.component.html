@@ -30,6 +30,7 @@
         {{ item["answerText"] }}
         <br>
         <br>
+        Category: {{ item["category"] }}
         <div class="space-evenly">
             <div>Total Times answered: {{ item["total"]}}</div>
             <div>Times Correctly answered: {{ item["correct"]}}</div>
@@ -56,3 +57,7 @@
 <ng-template #empty>
     There is nothing here yet. Add some questions first!
 </ng-template>
+
+<br>
+<br>
+<br>

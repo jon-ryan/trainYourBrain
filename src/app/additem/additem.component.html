@@ -27,6 +27,19 @@ Answer image
 <input type="file" id="answer-image" [(ngModel)]="answerImage" name="answer-image">
 <br>
 <br>
+<h3>Category</h3>
+<div class="space-evenly">
+    <div>Create new</div>
+    <input type="text" id="category" class="input-text" [(ngModel)]="categoryNew" name="category">
+</div>
+<br>
+<div class="space-evenly">
+    <div>or assign to an existing category</div>
+    <select [(ngModel)]="categoryFromList">
+        <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
+    </select>
+</div>
+<br>
 <br>
 <button class="blue-button" (click)="submitNewItem()">Add</button>
 
@@ -34,9 +47,7 @@ Answer image
 <br>
 <div [style.color]="'crimson'">
     <ng-template [ngIf]="submitError" [ngIfElse]="none" class="error-text">
-        <b>Error while adding element:</b>
-        <br>
-        Please provide some text or an image for both, question and answer.
+        {{ errorText }}
     </ng-template>
     <ng-template #none>
 

@@ -8,6 +8,7 @@ export class DbserviceService {
   // class variables
   // reference to database
   private database: PouchDB.Database;
+  private categoryDatabase: PouchDB.Database;
   private isInstansiated: boolean;
 
   // local array to store the document id's of the db in memory
@@ -21,6 +22,7 @@ export class DbserviceService {
     if (!this.isInstansiated) {
       // instantiate
       this.database = new PouchDB('questions');
+      this.categoryDatabase = new PouchDB('categories');
       this.isInstansiated = true;
     }
 
@@ -31,6 +33,13 @@ export class DbserviceService {
 
     // get doc id's from database
     this.getDocumentIDs();
+
+    // optimize database on startup
+    this.database.viewCleanup();
+    this.database.compact();
+
+    this.categoryDatabase.viewCleanup();
+    this.categoryDatabase.compact();
   }
 
   // getRandom returns a random item from the database
@@ -59,17 +68,47 @@ export class DbserviceService {
     return doc;
   }
 
+
   // putDocument adds a new item to the database and the array in memory
-  public async putDocument(questionText: String, answerText: String,) {
+  public async putDocument(questionText: string, answerText: string, category: string) {
     // increment itemCount
     this.itemCount++;
 
     // id is the current date (year, month, day, hours, minutes, seconds, milliseconds)
     var dateTime = new Date();
-    var timeString = dateTime.getFullYear() + "-" + dateTime.getMonth() + "-" + dateTime.getDate() + "-" + dateTime.getHours() + "-" + dateTime.getMinutes() + "-" + dateTime.getSeconds() + "-" + dateTime.getMilliseconds();
+    var timeString = dateTime.getFullYear() + "-" + dateTime.getMonth() + "-" + dateTime.getDate()
+      + "-" + dateTime.getHours() + "-" + dateTime.getMinutes() + "-" + dateTime.getSeconds()
+      + "-" + dateTime.getMilliseconds();
 
     // append new id to docuemntIDs
     this.documentIDs.push(timeString);
+
+
+    // update category count
+    // see if the category already exists
+    try {
+      // try to get existing document
+      var doc = await this.categoryDatabase.get(category);
+      // update the reference count by one
+      await this.categoryDatabase.put({
+        _id: category,
+        _rev: doc._rev,
+        references: doc["references"] + 1,
+      })
+
+    } catch (err) {
+      if (err["name"] == "not_found") {
+        // document does not exist
+        // create new one
+        await this.categoryDatabase.put({
+          _id: category,
+          references: 1,
+        })
+      } else {
+        console.log(err);
+      }
+
+    }
 
     // create a new document
     try {
@@ -77,6 +116,7 @@ export class DbserviceService {
         _id: timeString,
         questionText: questionText,
         answerText: answerText,
+        category: category,
         total: 0,
         correct: 0,
       });
@@ -86,9 +126,9 @@ export class DbserviceService {
 
   }
 
-  public async updateDocument(id: string, rev: string, questionText: string, answerText: string, total: number, correct: number) {
+  public async updateDocument(id: string, rev: string, questionText: string, answerText: string, total: number, correct: number, category: string) {
     // turn it into a document
-    var doc = { _id: id, _rev: rev, questionText: questionText, answerText: answerText, total: total, correct: correct };
+    var doc = { _id: id, _rev: rev, questionText: questionText, answerText: answerText, total: total, correct: correct, category: category };
 
     // update database
     try {
@@ -155,7 +195,71 @@ export class DbserviceService {
     }
   }
 
-  public async deleteItem(id: string, rev: string) {
+  public async getAllDocumentsWithSpecificCategory(category: string) {
+    try {
+      var result = await this.database.allDocs({ include_docs: true})
+
+      // add every document to an array
+      var tmpArray: Array<any> = [];
+      var i: number = 0;
+      for (i = 0; i < result.total_rows; i++) {
+        if (result.rows[i].doc["category"] == category) {
+          tmpArray.push(result.rows[i].doc);
+        }
+      }
+
+      return tmpArray;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public async getAllCategories() {
+    try {
+      var result = await this.categoryDatabase.allDocs({ include_docs: true });
+
+      var tmpArray: Array<any> = [""];
+      var i: number = 0;
+      for (i = 0; i < result.total_rows; i++) {
+        tmpArray.push(result.rows[i].doc);
+      }
+
+      return tmpArray;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  public async deleteDocument(id: string, rev: string) {
+    // get category of this document
+    var doc = await this.database.get(id);
+    var category = doc["category"];
+
+    // decrease reference count of category
+    var catDocument = await this.categoryDatabase.get(category);
+    // check if after decrement there is no more reference
+    if (catDocument["references"] - 1 == 0) {
+      try {
+        // if so, delete this category
+        await this.categoryDatabase.remove(category, catDocument._rev);
+      } catch (err) {
+        console.log(err);
+      }
+
+    } else {
+      try {
+        // decrease references by one
+        await this.categoryDatabase.put({
+          _id: category,
+          _rev: catDocument._rev,
+          references: catDocument["references"] - 1,
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+
     try {
       // remove document
       await this.database.remove(id, rev);
@@ -166,30 +270,6 @@ export class DbserviceService {
     }
   }
 
-  /*public async bulkCreate(num: number) {
-    console.log("Bulk create initiated with: ", num);
-    var i: number = 0;
-
-    for (i = 0; i < num; i++) {
-      try {
-        var response = await this.database.put({
-          _id: i.toString(),
-          questionText: "This is a usual question text. It has some size but is not tooooo long. Still some length though." + i.toString(),
-          answerText: "This is the answer to the question. it might be shorter or longer thant the question itself.",
-          total: 0,
-          correct: 0,
-        });
-      } catch (err) {
-        console.log(err);
-      }
-
-      //this.bulkArray.push(response);
-    }
-
-    this.getDocumentIDs();
-
-    console.log("Bulk create executed");
-  }*/
 
   public async bulkDelete() {
     // destroy old database
@@ -198,7 +278,15 @@ export class DbserviceService {
     // create new database
     this.database = new PouchDB('questions');
 
+    // reset category db
+    this.deleteCategoryDB();
+
     this.getItemCountFromDatabase();
     this.getDocumentIDs();
+  }
+
+  public async deleteCategoryDB() {
+    await this.categoryDatabase.destroy();
+    this.categoryDatabase = new PouchDB('categories');
   }
 }

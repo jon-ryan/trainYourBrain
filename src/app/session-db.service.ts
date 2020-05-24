@@ -23,6 +23,10 @@ export class SessionDBService {
       // put new session document
       this.putNewSessionDocument();
     }
+
+    // optimize database on startup
+    this.database.viewCleanup();
+    this.database.compact();
   }
 
   private async putNewSessionDocument() {
@@ -67,7 +71,7 @@ export class SessionDBService {
   public async getAllDocuments() {
     try {
       // get all items
-      var result = await this.database.allDocs({include_docs: true, descending: true})
+      var result = await this.database.allDocs({ include_docs: true, descending: true })
 
       // add every document to an array
       var tmpArray: Array<any> = [];

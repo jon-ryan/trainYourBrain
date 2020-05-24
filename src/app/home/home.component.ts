@@ -22,6 +22,9 @@ export class HomeComponent implements OnInit {
   answerText: string = "";
   // answerImage
 
+  // category
+  category: string = "";
+
   questionTotalAnswered: number = 0;
   questionCorrectAnswered: number = 0;
 
@@ -76,6 +79,8 @@ export class HomeComponent implements OnInit {
 
     this.questionTotalAnswered = item["total"];
     this.questionCorrectAnswered = item["correct"];
+
+    this.category = item["category"];
   }
 
 
@@ -112,7 +117,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered);
+    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
     // next question
     this.getRandomItem();
   }
@@ -133,7 +138,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered);
+    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
     // next question
     this.getRandomItem();
   }

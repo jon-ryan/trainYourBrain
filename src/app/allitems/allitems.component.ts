@@ -28,6 +28,18 @@ export class AllitemsComponent implements OnInit {
     // get all items
     this.allItems = await this._databaseReference.getAllDocuments();
     // initialize toggleDelete
+    this.toggleDeleteArray = [];
+    var i: number = 0;
+    for (i = 0; i < this.allItems.length; i++) {
+      this.toggleDeleteArray.push(false);
+    }
+  }
+
+  private async getAllItemsWithSpecificCategory(category: string) {
+    this.allItems = await this._databaseReference.getAllDocumentsWithSpecificCategory(category);
+
+    // initialize toggleDelete
+    this.toggleDeleteArray = [];
     var i: number = 0;
     for (i = 0; i < this.allItems.length; i++) {
       this.toggleDeleteArray.push(false);
@@ -39,7 +51,9 @@ export class AllitemsComponent implements OnInit {
     // close confirm delete dialog
     this.toggleDeleteArray[i] = false;
     // delete item
-    this._databaseReference.deleteItem(id, rev);
+    await this._databaseReference.deleteDocument(id, rev);
+
+
     this.getAllItems();
   }
 
