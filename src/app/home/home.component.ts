@@ -22,6 +22,8 @@ export class HomeComponent implements OnInit {
   answerText: string = "";
   // answerImage
 
+  providedAnswer: string = "";
+
   // category
   existingCategories: Array<any> = [];
   selectedCategory: string = "";
@@ -112,6 +114,9 @@ export class HomeComponent implements OnInit {
   // correctAnswer will increment total and correct answered, update the item
   // and go to the next question
   public correctAnswer() {
+    // remove provided answer
+    this.providedAnswer = "";
+    
     // hide the answer
     this.showAnswer = false;
 
@@ -135,6 +140,9 @@ export class HomeComponent implements OnInit {
   // incorrectAnswer will increment total answered, upate the item
   // and go to the next question
   public incorrectAnswer() {
+    // remove provided answer
+    this.providedAnswer = "";
+
     // hide the answer
     this.showAnswer = false;
 
