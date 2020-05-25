@@ -40,7 +40,7 @@ export class HomeComponent implements OnInit {
   }
 
   private async initialSetup() {
-    this.itemsInDatabase = await this._databaseReference.getItemCountFromDatabase();
+    this.itemsInDatabase = await this._databaseReference.getQuestionCountFromDatabase();
     if (this.itemsInDatabase == 0) {
       return;
     }
@@ -59,7 +59,7 @@ export class HomeComponent implements OnInit {
   // getItemCountInDatabase will retrieve the amount of items in the database
   private getItemCountInDatabase() {
     // get how many items are in the database
-    this.itemsInDatabase = this._databaseReference.getItemCount();
+    this.itemsInDatabase = this._databaseReference.getQuestionCount();
   }
 
   private async getRandomItem() {
@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    var item = await this._databaseReference.getRandom();
+    var item = await this._databaseReference.getRandomQuestion();
 
     // populate the local properties
     this.questionID = item["_id"];
@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
+    this._databaseReference.updateQuestion(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
     // next question
     this.getRandomItem();
   }
@@ -138,7 +138,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-    this._databaseReference.updateDocument(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
+    this._databaseReference.updateQuestion(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
     // next question
     this.getRandomItem();
   }

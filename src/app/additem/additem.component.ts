@@ -63,7 +63,7 @@ export class AdditemComponent implements OnInit {
     }
 
     // put into database
-    await this._databaseReference.putDocument(this.questionText, this.answerText, tmpCategory);
+    await this._databaseReference.putQuestion(this.questionText, this.answerText, tmpCategory);
 
     // refresh all categories
     await this.getAllCategories();

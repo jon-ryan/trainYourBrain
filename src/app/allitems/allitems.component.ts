@@ -29,7 +29,7 @@ export class AllitemsComponent implements OnInit {
   // getAllItems gets all items from the database
   private async getAllItems() {
     // get all items
-    this.allItems = await this._databaseReference.getAllDocuments();
+    this.allItems = await this._databaseReference.getAllQuestions();
     // initialize toggleDelete
     this.toggleDeleteArray = [];
     var i: number = 0;
@@ -43,7 +43,7 @@ export class AllitemsComponent implements OnInit {
   }
 
   private async getFilteredQuestions(category: string) {
-    this.allItems = await this._databaseReference.getAllDocumentsWithSpecificCategory(category);
+    this.allItems = await this._databaseReference.getAllQuestionsWithSpecificCategory(category);
 
     // initialize toggleDelete
     this.toggleDeleteArray = [];
@@ -66,7 +66,7 @@ export class AllitemsComponent implements OnInit {
     // close confirm delete dialog
     this.toggleDeleteArray[i] = false;
     // delete item
-    await this._databaseReference.deleteDocument(id, rev);
+    await this._databaseReference.deleteQuestion(id, rev);
 
 
     this.getAllItems();

@@ -7,49 +7,48 @@ import PouchDB from 'pouchdb';
 export class DbserviceService {
   // class variables
   // reference to database
-  private database: PouchDB.Database;
+  private questionDatabase: PouchDB.Database;
   private categoryDatabase: PouchDB.Database;
   private isInstansiated: boolean;
 
-  // local array to store the document id's of the db in memory
-  private documentIDs: Array<string> = [];
-  // itemCount counts the items in the database and the array
-  // it is used to set the id of new items
-  private itemCount: number = 0;
+  // local array to store the question's id
+  private questionIDs: Array<string> = [];
+  // questionCount counts the items in the database and the array
+  private questionCount: number = 0;
 
 
   constructor() {
     if (!this.isInstansiated) {
       // instantiate
-      this.database = new PouchDB('questions');
+      this.questionDatabase = new PouchDB('questions');
       this.categoryDatabase = new PouchDB('categories');
       this.isInstansiated = true;
     }
 
-    this.itemCount = 0;
+    this.questionCount = 0;
 
     // get doc count from database
-    this.getItemCountFromDatabase();
+    this.getQuestionCountFromDatabase();
 
     // get doc id's from database
-    this.getDocumentIDs();
+    this.getQuestionIDs();
 
-    // optimize database on startup
-    this.database.viewCleanup();
-    this.database.compact();
+    // optimize databases on startup
+    this.questionDatabase.viewCleanup();
+    this.questionDatabase.compact();
 
     this.categoryDatabase.viewCleanup();
     this.categoryDatabase.compact();
   }
 
   // getRandom returns a random item from the database
-  public async getRandom() {
+  public async getRandomQuestion() {
     // generate a random number
-    var randomNumber: number = Math.floor(Math.random() * this.itemCount - 1) + 1;
+    var randomNumber: number = Math.floor(Math.random() * this.questionCount - 1) + 1;
 
     var doc: Map<String, any>;
     try {
-      doc = await this.database.get(this.documentIDs[randomNumber]);
+      doc = await this.questionDatabase.get(this.questionIDs[randomNumber]);
     } catch (err) {
       console.log(err);
     }
@@ -57,11 +56,11 @@ export class DbserviceService {
   }
 
   // getSpecific returns the item at the position id
-  public async getSpecific(id: number) {
+  public async getSpecificQuestion(id: number) {
     var doc: Map<String, any>;
 
     try {
-      doc = await this.database.get(id.toString());
+      doc = await this.questionDatabase.get(id.toString());
     } catch (err) {
       console.log(err);
     }
@@ -69,10 +68,10 @@ export class DbserviceService {
   }
 
 
-  // putDocument adds a new item to the database and the array in memory
-  public async putDocument(questionText: string, answerText: string, category: string) {
+  // putQuestion adds a new question to the database and the array in memory
+  public async putQuestion(questionText: string, answerText: string, category: string) {
     // increment itemCount
-    this.itemCount++;
+    this.questionCount++;
 
     // id is the current date (year, month, day, hours, minutes, seconds, milliseconds)
     var dateTime = new Date();
@@ -80,8 +79,8 @@ export class DbserviceService {
       + "-" + dateTime.getHours() + "-" + dateTime.getMinutes() + "-" + dateTime.getSeconds()
       + "-" + dateTime.getMilliseconds();
 
-    // append new id to docuemntIDs
-    this.documentIDs.push(timeString);
+    // append new id to questionIDs
+    this.questionIDs.push(timeString);
 
 
     // update category count
@@ -112,7 +111,7 @@ export class DbserviceService {
 
     // create a new document
     try {
-      await this.database.put({
+      await this.questionDatabase.put({
         _id: timeString,
         questionText: questionText,
         answerText: answerText,
@@ -126,61 +125,61 @@ export class DbserviceService {
 
   }
 
-  public async updateDocument(id: string, rev: string, questionText: string, answerText: string, total: number, correct: number, category: string) {
+  public async updateQuestion(id: string, rev: string, questionText: string, answerText: string, total: number, correct: number, category: string) {
     // turn it into a document
     var doc = { _id: id, _rev: rev, questionText: questionText, answerText: answerText, total: total, correct: correct, category: category };
 
     // update database
     try {
-      await this.database.put(doc);
+      await this.questionDatabase.put(doc);
     } catch (err) {
 
     }
   }
 
   // getItemCount returns how many items are in the database
-  public getItemCount() {
-    return this.itemCount;
+  public getQuestionCount() {
+    return this.questionCount;
   }
 
   // getItemCountFromDatabase will retrieve the itemcount directly from the database
-  public async getItemCountFromDatabase() {
+  public async getQuestionCountFromDatabase() {
     try {
-      var info = await this.database.info();
-      this.itemCount = info.doc_count;
-      return this.itemCount;
+      var info = await this.questionDatabase.info();
+      this.questionCount = info.doc_count;
+      return this.questionCount;
     } catch (err) {
       console.log(err);
     }
   }
 
 
-  public async getDocumentIDs() {
+  public async getQuestionIDs() {
     try {
       // get the data from the database
-      var result = await this.database.allDocs();
+      var result = await this.questionDatabase.allDocs();
 
       // reset array
-      this.documentIDs = [];
+      this.questionIDs = [];
 
       // add every id per row
       var i: number = 0;
       for (i = 0; i < result.total_rows; i++) {
-        this.documentIDs.push(result.rows[i].id);
+        this.questionIDs.push(result.rows[i].id);
       }
 
       // update item count
-      this.getItemCountFromDatabase();
+      this.getQuestionCountFromDatabase();
 
     } catch (err) {
       console.log(err);
     }
   }
 
-  public async getAllDocuments() {
+  public async getAllQuestions() {
     try {
       // get all items
-      var result = await this.database.allDocs({ include_docs: true })
+      var result = await this.questionDatabase.allDocs({ include_docs: true })
 
       // add every document to an array
       var tmpArray: Array<any> = [];
@@ -195,9 +194,9 @@ export class DbserviceService {
     }
   }
 
-  public async getAllDocumentsWithSpecificCategory(category: string) {
+  public async getAllQuestionsWithSpecificCategory(category: string) {
     try {
-      var result = await this.database.allDocs({ include_docs: true})
+      var result = await this.questionDatabase.allDocs({ include_docs: true})
 
       // add every document to an array
       var tmpArray: Array<any> = [];
@@ -230,9 +229,9 @@ export class DbserviceService {
     }
   }
 
-  public async deleteDocument(id: string, rev: string) {
+  public async deleteQuestion(id: string, rev: string) {
     // get category of this document
-    var doc = await this.database.get(id);
+    var doc = await this.questionDatabase.get(id);
     var category = doc["category"];
 
     // decrease reference count of category
@@ -262,9 +261,9 @@ export class DbserviceService {
 
     try {
       // remove document
-      await this.database.remove(id, rev);
+      await this.questionDatabase.remove(id, rev);
       // update the document id array
-      this.getDocumentIDs();
+      this.getQuestionIDs();
     } catch (err) {
       console.log(err);
     }
@@ -273,16 +272,16 @@ export class DbserviceService {
 
   public async bulkDelete() {
     // destroy old database
-    await this.database.destroy();
+    await this.questionDatabase.destroy();
 
     // create new database
-    this.database = new PouchDB('questions');
+    this.questionDatabase = new PouchDB('questions');
 
     // reset category db
     this.deleteCategoryDB();
 
-    this.getItemCountFromDatabase();
-    this.getDocumentIDs();
+    this.getQuestionCountFromDatabase();
+    this.getQuestionIDs();
   }
 
   public async deleteCategoryDB() {
