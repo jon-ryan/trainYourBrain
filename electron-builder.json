@@ -1,5 +1,5 @@
 {
-  "productName": "angular-electron",
+  "productName": "Train Your Brain",
   "directories": {
     "output": "release/"
   },
@@ -32,7 +32,7 @@
     ]
   },
   "linux": {
-    "icon": "dist/assets/icons",
+    "icon": "dist/assets/icons/favicon.png",
     "target": [
       "AppImage"
     ]

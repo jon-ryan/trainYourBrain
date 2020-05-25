@@ -1,20 +1,17 @@
 {
-  "name": "angular-electron",
-  "version": "7.1.0",
-  "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
-  "homepage": "https://github.com/maximegris/angular-electron",
+  "name": "train-your-brain",
+  "version": "1.0.0",
+  "description": "Train Your Brain helps you learning",
+  "homepage": "https://github.com/jon-ryan/trainYourBrain",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Jonathan Herrmann",
+    "email": "jonathan.herrmann@mailbox.org"
   },
   "keywords": [
-    "angular",
-    "angular 9",
-    "electron",
-    "typescript",
-    "eslint",
-    "spectron",
-    "sass"
+    "trainyourbrain",
+    "learn",
+    "study",
+    "studying"
   ],
   "main": "main.js",
   "private": true,

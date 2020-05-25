@@ -155,5 +155,12 @@ export class SessionDBService {
 
     // create new db
     this.database = new PouchDB('sessions');
+
+    // create new session
+    this.putNewSessionDocument();
+
+    // reset current counter
+    this.correctSession = 0;
+    this.totalSession = 0;
   }
 }

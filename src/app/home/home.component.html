@@ -6,14 +6,24 @@
 
 <ng-template [ngIf]="itemsInDatabase != 0" [ngIfElse]="empty">
 
+  <div class="space-evenly">
+    <div>Filter by Category:</div>
+    <select [(ngModel)]="selectedCategory" (change)="getRandomItem()">
+      <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
+    </select>
+  </div>
+  <br>
+
+
   <!-- only display the text element if there is actually a text to display-->
   <ng-template [ngIf]="questionText != ''">
     {{ questionText }}
     <br>
     <br>
+    <!--
     <strong>Category:</strong> {{ category }}
     <br>
-    <br>
+    <br>-->
   </ng-template>
 
   <!-- insert question image here -->

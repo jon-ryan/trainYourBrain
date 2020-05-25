@@ -41,7 +41,7 @@ export class DbserviceService {
     this.categoryDatabase.compact();
   }
 
-  // getRandom returns a random item from the database
+  // getRandomQuestion returns a random item from the database
   public async getRandomQuestion() {
     // generate a random number
     var randomNumber: number = Math.floor(Math.random() * this.questionCount - 1) + 1;
@@ -52,6 +52,25 @@ export class DbserviceService {
     } catch (err) {
       console.log(err);
     }
+    return doc;
+  }
+
+  // getRandomQuestionInCategory returns a random question matching the rquested category
+  public async getRandomQuestionInCategory(category: string) {
+    // get list of question IDs
+    var tmpArray = await this.getAllQuestionsWithSpecificCategory(category);
+
+    // get random number
+    var randomNumber: number = Math.floor(Math.random() * tmpArray.length - 1) + 1;
+
+    // get random question
+    try {
+      var doc = await this.questionDatabase.get(tmpArray[randomNumber]._id);
+    } catch (err) {
+      console.log(err);
+    }
+
+    // return question
     return doc;
   }
 
@@ -196,21 +215,20 @@ export class DbserviceService {
 
   public async getAllQuestionsWithSpecificCategory(category: string) {
     try {
-      var result = await this.questionDatabase.allDocs({ include_docs: true})
-
-      // add every document to an array
-      var tmpArray: Array<any> = [];
-      var i: number = 0;
-      for (i = 0; i < result.total_rows; i++) {
-        if (result.rows[i].doc["category"] == category) {
-          tmpArray.push(result.rows[i].doc);
-        }
-      }
-
-      return tmpArray;
+      var result = await this.questionDatabase.allDocs({ include_docs: true })
     } catch (err) {
       console.log(err);
     }
+
+    // add every document to an array
+    var tmpArray: Array<any> = [];
+    var i: number = 0;
+    for (i = 0; i < result.total_rows; i++) {
+      if (result.rows[i].doc["category"] == category) {
+        tmpArray.push(result.rows[i].doc);
+      }
+    }
+    return tmpArray;
   }
 
   public async getAllCategories() {

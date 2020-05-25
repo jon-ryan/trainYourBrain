@@ -27,6 +27,7 @@ function createWindow(): BrowserWindow {
       nodeIntegration: true,
       allowRunningInsecureContent: (serve) ? true : false,
     },
+    icon: "dist/assets/icons/favicon.png",
   });
 
   // remove menu bar

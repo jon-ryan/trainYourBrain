@@ -23,10 +23,14 @@ export class HomeComponent implements OnInit {
   // answerImage
 
   // category
+  existingCategories: Array<any> = [];
+  selectedCategory: string = "";
   category: string = "";
 
   questionTotalAnswered: number = 0;
   questionCorrectAnswered: number = 0;
+
+
 
   // boolean for showing the answer
   showAnswer: boolean = false;
@@ -37,6 +41,7 @@ export class HomeComponent implements OnInit {
 
   constructor(private _databaseReference: DbserviceService, private _sessionReference: SessionDBService) {
     this.initialSetup();
+    this.getAllCategories();
   }
 
   private async initialSetup() {
@@ -45,6 +50,10 @@ export class HomeComponent implements OnInit {
       return;
     }
     await this.getRandomItem();
+  }
+
+  private async getAllCategories() {
+    this.existingCategories = await this._databaseReference.getAllCategories();
   }
 
   ngOnInit(): void {
@@ -56,19 +65,20 @@ export class HomeComponent implements OnInit {
     this.correctThisSession = this._sessionReference.getCorrectSession();
   }
 
-  // getItemCountInDatabase will retrieve the amount of items in the database
-  private getItemCountInDatabase() {
-    // get how many items are in the database
-    this.itemsInDatabase = this._databaseReference.getQuestionCount();
-  }
-
   private async getRandomItem() {
     // check if there are items that can be fetched
     if (this.itemsInDatabase == 0) {
       return;
     }
 
-    var item = await this._databaseReference.getRandomQuestion();
+    var item: any;
+    // check if a category is selected
+    if (this.selectedCategory != undefined && this.selectedCategory != "") {
+      item = await this._databaseReference.getRandomQuestionInCategory(this.selectedCategory);
+    } else {
+      item = await this._databaseReference.getRandomQuestion();
+    }
+
 
     // populate the local properties
     this.questionID = item["_id"];
@@ -85,13 +95,13 @@ export class HomeComponent implements OnInit {
 
 
   // showSolution will unhide the answer
-  showSolution() {
+  public showSolution() {
     // show answer
     this.showAnswer = true;
   }
 
   // skip Question will skip a question. It will not increment the 'total' or 'correct' counter
-  skipQuestion() {
+  public skipQuestion() {
     // make sure the anser is hidden
     this.showAnswer = false;
 
@@ -101,7 +111,7 @@ export class HomeComponent implements OnInit {
 
   // correctAnswer will increment total and correct answered, update the item
   // and go to the next question
-  correctAnswer() {
+  public correctAnswer() {
     // hide the answer
     this.showAnswer = false;
 
@@ -124,7 +134,7 @@ export class HomeComponent implements OnInit {
 
   // incorrectAnswer will increment total answered, upate the item
   // and go to the next question
-  incorrectAnswer() {
+  public incorrectAnswer() {
     // hide the answer
     this.showAnswer = false;
 
