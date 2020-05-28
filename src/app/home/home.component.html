@@ -20,13 +20,10 @@
     {{ questionText }}
     <br>
     <br>
-    <!--
-    <strong>Category:</strong> {{ category }}
-    <br>
-    <br>-->
   </ng-template>
 
-  <!-- insert question image here -->
+ <img [src]="questionImage" height="200px">
+ <br>
 
 
   <!-- textarea for own solution -->
@@ -51,7 +48,9 @@
       <br>
     </ng-template>
 
-    <!-- insert answer image here -->
+    <img [src]="answerImage" height="200px">
+    <br>
+    <br>
 
     <!-- continue to next question-->
     <button class="blue-button" (click)="correctAnswer()">Correct</button>

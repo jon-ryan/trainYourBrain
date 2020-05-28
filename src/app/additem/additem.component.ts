@@ -1,5 +1,8 @@
+import { ipcRenderer } from 'electron';
 import { Component, OnInit } from '@angular/core';
 import { DbserviceService } from '../dbservice.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as fs from 'fs';
 
 @Component({
   selector: 'app-additem',
@@ -11,9 +14,11 @@ export class AdditemComponent implements OnInit {
   submitError: boolean = false;
 
   questionText: string;
+  questionImagePath: string = "";
   questionImage: any;
 
   answerText: string;
+  answerImagePath: string = "";
   answerImage: any;
 
   categoryNew: string;
@@ -22,7 +27,11 @@ export class AdditemComponent implements OnInit {
 
   errorText: string = "";
 
-  constructor(private _databaseReference: DbserviceService) { }
+  constructor(private _databaseReference: DbserviceService, private _sanitizer: DomSanitizer) { }
+
+  ngOnInit(): void {
+    this.getAllCategories();
+  }
 
   public async submitNewItem() {
 
@@ -40,8 +49,8 @@ export class AdditemComponent implements OnInit {
       this.errorText = "Please specify a category. ";
       return;
 
-    // both categories are set
-    } else if ((this.categoryNew != undefined && this.categoryNew != "")  && (this.categoryFromList != undefined && this.categoryFromList != "")) {
+      // both categories are set
+    } else if ((this.categoryNew != undefined && this.categoryNew != "") && (this.categoryFromList != undefined && this.categoryFromList != "")) {
       this.submitError = true;
       this.errorText = "Please only specify one category. Creating a new one and selecting an existing category is not possible."
       return;
@@ -63,15 +72,17 @@ export class AdditemComponent implements OnInit {
     }
 
     // put into database
-    await this._databaseReference.putQuestion(this.questionText, this.answerText, tmpCategory);
+    await this._databaseReference.putQuestion(this.questionText, this.answerText, tmpCategory, this.questionImagePath, this.answerImagePath);
 
     // refresh all categories
     await this.getAllCategories();
 
     // reset values
     this.questionText = undefined;
+    this.questionImagePath = "";
     this.questionImage = undefined;
     this.answerText = undefined;
+    this.answerImagePath = "";
     this.answerImage = undefined;
     this.categoryNew = undefined;
     this.categoryFromList = undefined;
@@ -81,7 +92,37 @@ export class AdditemComponent implements OnInit {
     this.existingCategories = await this._databaseReference.getAllCategories();
   }
 
-  ngOnInit(): void {
-    this.getAllCategories();
+  public openFileDialogQuestionImage() {
+    ipcRenderer.invoke("showOpenFileDialog").then((path: Array<string>) => {
+      this.questionImagePath = path[0];
+
+      // open the image and display it
+      try {
+        var data = fs.readFileSync(this.questionImagePath);
+        this.questionImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+      } catch (err) {
+        console.log(err);
+      }
+    })
   }
+
+  public async openFileDialogAnswerImage() {
+    ipcRenderer.invoke("showOpenFileDialog").then((path: Array<string>) => {
+      this.answerImagePath = path[0];
+
+      // open the image and display it
+      try {
+        var data = fs.readFileSync(this.answerImagePath);
+        this.answerImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    );
+  }
+
+
+
+
+
 }

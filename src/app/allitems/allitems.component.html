@@ -6,7 +6,8 @@
     <br>
     <div class="space-evenly">
         <div>If you want to clean up, you can delete all your questions and make a fresh start.</div>
-        <img (click)="toggleConfirmDeleteAll()" [style.cursor]="'pointer'" src="../../assets/keyboard_arrow_down-white-24dp.svg">
+        <img (click)="toggleConfirmDeleteAll()" [style.cursor]="'pointer'"
+            src="../../assets/keyboard_arrow_down-white-24dp.svg">
     </div>
     <br>
     <br>
@@ -38,13 +39,26 @@
         {{ item["answerText"] }}
         <br>
         <br>
-        Category: {{ item["category"] }}
+        <strong>Category:</strong> {{ item["category"] }}
         <div class="space-evenly">
             <div>Total Times answered: {{ item["total"]}}</div>
             <div>Times Correctly answered: {{ item["correct"]}}</div>
             <div>Success Rate: {{item["correct"] / item["total"] * 100 | number: '2.1-1'}}%</div>
             <img (click)="toggleConfirmDelete(i)" src="../../assets/delete-white-24dp.svg" [style.cursor]="'pointer'">
         </div>
+
+        <ng-template [ngIf]="item['questionImagePath'] != '' || item['answerImagePath'] != ''">
+            <br>
+            <strong>Images</strong>
+            <br>
+            <ng-template [ngIf]="item['questionImagePath'] != ''">
+                Location of Question Image: <span class="path">{{ item["questionImagePath"] }}</span>
+            </ng-template>
+            <br>
+            <ng-template [ngIf]="item['answerImagePath'] != ''">
+                Location of Answer Image: <span class="path">{{ item["answerImagePath"] }}</span>
+            </ng-template>
+        </ng-template>
 
         <ng-template [ngIf]="toggleDeleteArray[i]">
             <div>

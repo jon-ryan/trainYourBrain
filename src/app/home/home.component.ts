@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 //import { Router } from '@angular/router';
 import { DbserviceService } from '../dbservice.service';
 import { SessionDBService } from '../session-db.service';
+import { DomSanitizer } from '@angular/platform-browser';
+import * as fs from 'fs';
+
 
 @Component({
   selector: 'app-home',
@@ -17,10 +20,12 @@ export class HomeComponent implements OnInit {
   questionRev: string = "";
 
   questionText: string = "";
-  // questionImage
+  questionImagePath: string = "";
+  questionImage: any;
 
   answerText: string = "";
-  // answerImage
+  answerImagePath: string = "";
+  answerImage: any;
 
   providedAnswer: string = "";
 
@@ -41,7 +46,7 @@ export class HomeComponent implements OnInit {
   totalThisSession: number = 0;
   correctThisSession: number = 0;
 
-  constructor(private _databaseReference: DbserviceService, private _sessionReference: SessionDBService) {
+  constructor(private _databaseReference: DbserviceService, private _sessionReference: SessionDBService, private _sanitizer: DomSanitizer) {
     this.initialSetup();
     this.getAllCategories();
   }
@@ -87,12 +92,40 @@ export class HomeComponent implements OnInit {
     this.questionRev = item["_rev"];
 
     this.questionText = item["questionText"];
+    this.questionImagePath = item["questionImagePath"];
+
     this.answerText = item["answerText"];
+    this.answerImagePath = item["answerImagePath"];
 
     this.questionTotalAnswered = item["total"];
     this.questionCorrectAnswered = item["correct"];
 
     this.category = item["category"];
+
+    // load images if available
+    if (this.questionImagePath != "") {
+      // open the question image and display it
+      try {
+        var data = fs.readFileSync(this.questionImagePath);
+        this.questionImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      this.questionImage = undefined;
+    }
+
+    if (this.answerImagePath != "") {
+      // open the image and display it
+      try {
+        var data = fs.readFileSync(this.answerImagePath);
+        this.answerImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      this.answerImage = undefined;
+    }
   }
 
 
@@ -116,7 +149,7 @@ export class HomeComponent implements OnInit {
   public correctAnswer() {
     // remove provided answer
     this.providedAnswer = "";
-    
+
     // hide the answer
     this.showAnswer = false;
 
@@ -132,7 +165,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-    this._databaseReference.updateQuestion(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
+    this._databaseReference.updateQuestion(this.questionID, this.questionRev, this.questionText, this.questionImagePath, this.answerText, this.answerImagePath, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
     // next question
     this.getRandomItem();
   }
@@ -156,7 +189,7 @@ export class HomeComponent implements OnInit {
     this.questionTotalAnswered++;
 
     // update database
-    this._databaseReference.updateQuestion(this.questionID, this.questionRev, this.questionText, this.answerText, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
+    this._databaseReference.updateQuestion(this.questionID, this.questionRev, this.questionText, this.questionImagePath, this.answerText, this.answerImagePath, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
     // next question
     this.getRandomItem();
   }

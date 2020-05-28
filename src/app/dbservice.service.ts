@@ -88,7 +88,7 @@ export class DbserviceService {
 
 
   // putQuestion adds a new question to the database and the array in memory
-  public async putQuestion(questionText: string, answerText: string, category: string) {
+  public async putQuestion(questionText: string, answerText: string, category: string, questionImagePath: string, answerImagePath: string) {
     // increment itemCount
     this.questionCount++;
 
@@ -133,7 +133,9 @@ export class DbserviceService {
       await this.questionDatabase.put({
         _id: timeString,
         questionText: questionText,
+        questionImagePath: questionImagePath,
         answerText: answerText,
+        answerImagePath: answerImagePath,
         category: category,
         total: 0,
         correct: 0,
@@ -144,9 +146,18 @@ export class DbserviceService {
 
   }
 
-  public async updateQuestion(id: string, rev: string, questionText: string, answerText: string, total: number, correct: number, category: string) {
+  public async updateQuestion(id: string, rev: string, questionText: string, questionImagePath: string, answerText: string, answerImagePath: string, total: number, correct: number, category: string) {
     // turn it into a document
-    var doc = { _id: id, _rev: rev, questionText: questionText, answerText: answerText, total: total, correct: correct, category: category };
+    var doc = {
+      _id: id,
+      _rev: rev,
+      questionText: questionText,
+      questionImagePath: questionImagePath,
+      answerText: answerText,
+      answerImagePath: answerImagePath,
+      total: total,
+      correct: correct,
+      category: category };
 
     // update database
     try {

@@ -1,4 +1,4 @@
-import { app, BrowserWindow, screen } from 'electron';
+import { app, BrowserWindow, screen, ipcMain, dialog} from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 
@@ -93,3 +93,10 @@ try {
   // Catch Error
   // throw e;
 }
+
+
+// listen for the request to open a file chooser
+ipcMain.handle("showOpenFileDialog", async (_) => {
+  return dialog.showOpenDialogSync({properties: ['openFile'], filters: [{name: "Image", extensions: ['png', 'jpg']}]});
+})
+
