@@ -2,6 +2,12 @@
 With Train-Your-Brain you can easily train yourself on knowledge and facts you really want to remember. Add some questions and the correct answers and try to remember those facts. If you remembered the answer, validate your solution with what you initially set as the answer.
 This is an ideal companion for every student who is trying to get the hang on their subject.
 
+# Download the App
+See the download links for your platform below, you will be redirected to Google Drive. Before running the app you have to extract the .zip file.
+- [Windows](https://drive.google.com/file/d/1YdVVTFpZFF77a-z3V0KY8Pftze5FK6qh/view?usp=sharing) Please note, that since I'm not a certified Windows developer, Windows will warn you to not execute the app. If you don't trust me and don't want to use this version you can build the app from source. To do this, please see the instructions below.
+- [Linux (AppImage)](https://drive.google.com/file/d/1Ph3pm7N4obf_3mlM0tZ907jmR9c4i3Yq/view?usp=sharing)
+- Mac: Unfortunately, at the moment you have to build from source, if you are on a Mac
+
 # Clone and build from source
 If you want to build this app from source follow these steps:
 
