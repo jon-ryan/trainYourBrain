@@ -22,6 +22,8 @@ import { AllitemsComponent } from './allitems/allitems.component';
 import { AboutComponent } from './about/about.component';
 import { SessionsComponent } from './sessions/sessions.component';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -37,6 +39,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     SharedModule,
     HomeModule,
     AppRoutingModule,
+    BrowserAnimationsModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,

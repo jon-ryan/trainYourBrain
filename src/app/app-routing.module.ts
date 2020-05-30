@@ -12,23 +12,38 @@ const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    data: {
+      animation: 'home',
+    },
   },
   {
     path: 'additem',
     component: AdditemComponent,
+    data: {
+      animation: 'add',
+    },
   },
   {
     path: 'allitems',
     component: AllitemsComponent,
-  },
-  {
-    path: 'about',
-    component: AboutComponent,
+    data: {
+      animation: 'all',
+    },
   },
   {
     path: 'sessions',
     component: SessionsComponent,
+    data: {
+      animation: 'session',
+    },
+  },
+  {
+    path: 'about',
+    component: AboutComponent,
+    data: {
+      animation: 'about',
+    },
   },
   {
     path: '**',

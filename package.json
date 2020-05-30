@@ -91,6 +91,7 @@
     "node": ">=10.13.0"
   },
   "dependencies": {
+    "@angular/animations": "9.1.9",
     "@types/pouchdb": "6.4.0",
     "pouchdb": "7.2.1",
     "pouchdb-browser": "7.2.1",
