@@ -28,6 +28,8 @@ Build for your platform
 |`npm run electron:mac`|  Builds your application and generates a `.app` file of your application that can be run on Mac |
 |`npm start`| Build a development version of the app |
 
+The compiled app is in the `release` folder.
+
 
 ## Copyright notice
 This project uses
