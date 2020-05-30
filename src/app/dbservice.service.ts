@@ -16,6 +16,10 @@ export class DbserviceService {
   // questionCount counts the items in the database and the array
   private questionCount: number = 0;
 
+  // category array to store the questions in a certian category
+  private questionsByCategory: Array<any> = [];
+  private selectedCategory: string = "";
+
 
   constructor() {
     if (!this.isInstansiated) {
@@ -225,6 +229,14 @@ export class DbserviceService {
   }
 
   public async getAllQuestionsWithSpecificCategory(category: string) {
+    // check if this category was already extracted
+    if (this.selectedCategory == category) {
+      return this.questionsByCategory;
+    }
+
+    // this is a new category
+    this.selectedCategory = category;
+
     try {
       var result = await this.questionDatabase.allDocs({ include_docs: true })
     } catch (err) {
@@ -232,14 +244,14 @@ export class DbserviceService {
     }
 
     // add every document to an array
-    var tmpArray: Array<any> = [];
+    this.questionsByCategory = [];
     var i: number = 0;
     for (i = 0; i < result.total_rows; i++) {
       if (result.rows[i].doc["category"] == category) {
-        tmpArray.push(result.rows[i].doc);
+        this.questionsByCategory.push(result.rows[i].doc);
       }
     }
-    return tmpArray;
+    return this.questionsByCategory;
   }
 
   public async getAllCategories() {
