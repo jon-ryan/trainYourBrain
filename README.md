@@ -4,5 +4,5 @@ This is an ideal companion for every student who is trying to get the hang on th
 
 ### Copyright notice
 This project uses
-- angular-electron [Project](https://github.com/maximegris/angular-electron); [Licence](https://github.com/maximegris/angular-electron/blob/master/LICENSE.md)
-- pouchdb [Project](https://github.com/pouchdb/pouchdb); [Licence](https://github.com/pouchdb/pouchdb/blob/master/LICENSE)
+- [angular-electron](https://github.com/maximegris/angular-electron)
+- [pouchdb](https://github.com/pouchdb/pouchdb)
