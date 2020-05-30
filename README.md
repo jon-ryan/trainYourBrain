@@ -5,21 +5,21 @@ This is an ideal companion for every student who is trying to get the hang on th
 # Clone and build from source
 If you want to build this app from source follow these steps:
 
-Make sure, you have npm installed
+- Make sure, you have npm installed
 
-Clone this repository locally
+- Clone this repository locally
 
 ``` bash
 git clone https://github.com/maximegris/angular-electron.git
 ```
 
-Install dependencies with npm
+- Install dependencies with npm
 
 ``` bash
 npm install
 ```
 
-Build for your platform
+- Build for your platform
 |Command|Description|
 |--|--|
 |`npm run electron:linux`| Builds your application and creates an app consumable on linux system (AppImage) |
