@@ -1,6 +1,10 @@
 {
   "appId": "de.github.trainyourbrain",
   "productName": "Train Your Brain",
+  "publish": {
+    "provider": "github",
+    "token": "2c0ff9ee3848306178c7e28dba2c56ec6e89050b"
+  },
   "directories": {
     "output": "release/",
     "files": [

@@ -1,6 +1,6 @@
 {
   "name": "train-your-brain",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "description": "Train Your Brain helps you learning",
   "homepage": "https://github.com/jon-ryan/trainYourBrain",
   "author": {
@@ -13,6 +13,10 @@
     "study",
     "studying"
   ],
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/jon-ryan/trainYourBrain.git"
+  },
   "main": "main.js",
   "private": true,
   "scripts": {
@@ -27,8 +31,8 @@
     "electron:serve-tsc": "tsc -p tsconfig-serve.json",
     "electron:serve": "wait-on http-get://localhost:4200/ && npm run electron:serve-tsc && electron . --serve",
     "electron:local": "npm run build:prod && electron .",
-    "electron:linux": "npm run build:prod && electron-builder build --linux",
-    "electron:windows": "npm run build:prod && electron-builder build --windows",
+    "electron:linux": "npm run build:prod && electron-builder build --linux --publish always",
+    "electron:windows": "npm run build:prod && electron-builder build --windows --publish always",
     "electron:mac": "npm run build:prod && electron-builder build --mac",
     "test": "ng test --watch=false",
     "test:watch": "ng test",
