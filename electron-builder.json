@@ -3,13 +3,10 @@
   "productName": "Train Your Brain",
   "publish": {
     "provider": "github",
-    "token": "2c0ff9ee3848306178c7e28dba2c56ec6e89050b"
+    "token": "d2b659e3091db6985785376cbe7e92f3f4e29db9"
   },
   "directories": {
-    "output": "release/",
-    "files": [
-      "!src/assets/*"
-    ]
+    "output": "release/"
   },
     "files": [
         "**/*",
