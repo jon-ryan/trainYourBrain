@@ -1,7 +1,11 @@
 {
+  "appId": "de.github.trainyourbrain",
   "productName": "Train Your Brain",
   "directories": {
-    "output": "release/"
+    "output": "release/",
+    "files": [
+      "!src/assets/*"
+    ]
   },
     "files": [
         "**/*",

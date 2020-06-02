@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ElectronService } from './core/services';
 import { TranslateService } from '@ngx-translate/core';
 import { RouterOutlet } from '@angular/router';
+import { ipcRenderer } from 'electron';
 import { slider } from './route-animations';
 import { AppConfig } from '../environments/environment';
 
@@ -14,6 +15,12 @@ import { AppConfig } from '../environments/environment';
   ]
 })
 export class AppComponent {
+
+  showUpdater: boolean = false;
+  showRestartButton: boolean = false;
+
+  message: string = "";
+
   constructor(
     public electronService: ElectronService,
   ) {
@@ -27,6 +34,19 @@ export class AppComponent {
     } else {
       console.log('Mode web');
     }
+
+    ipcRenderer.on("update_available", () => {
+      ipcRenderer.removeAllListeners("update_available");
+      this.message = "An update is available. Downloading now...";
+      this.showUpdater = true;
+    });
+
+    ipcRenderer.on('update_downloaded', () => {
+      ipcRenderer.removeAllListeners('update_downloaded');
+      this.message = 'Update Downloaded. It will be installed on restart. Restart now?';
+      this.showRestartButton = true;
+      this.showUpdater = true;
+    });
   }
 
   public prepareRoute (outlet: RouterOutlet) {
@@ -38,4 +58,15 @@ export class AppComponent {
       return outlet && outlet.activatedRouteData && outlet.activatedRouteData['animation'];
     }
   }
+
+
+  public closeNotification() {
+    this.showUpdater = false;
+  }
+
+  public restartApp() {
+    ipcRenderer.send('restart_app');
+  }
+
+
 }

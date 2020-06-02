@@ -1,6 +1,7 @@
-import { app, BrowserWindow, screen, ipcMain, dialog} from 'electron';
+import { app, BrowserWindow, screen, ipcMain, dialog } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
+import { autoUpdater } from 'electron-updater';
 
 let win: BrowserWindow = null;
 const args = process.argv.slice(1),
@@ -59,6 +60,9 @@ function createWindow(): BrowserWindow {
     win = null;
   });
 
+  win.once('ready-to-show', () => {
+    autoUpdater.checkForUpdatesAndNotify();
+  });
   return win;
 }
 
@@ -97,6 +101,23 @@ try {
 
 // listen for the request to open a file chooser
 ipcMain.handle("showOpenFileDialog", async (_) => {
-  return dialog.showOpenDialogSync({properties: ['openFile'], filters: [{name: "Image", extensions: ['png', 'jpg']}]});
+  return dialog.showOpenDialogSync({ properties: ['openFile'], filters: [{ name: "Image", extensions: ['png', 'jpg'] }] });
 })
+
+ipcMain.on('app_version', (event) => {
+  event.sender.send('app_version', { version: app.getVersion() });
+})
+
+ipcMain.on("restart_app", () => {
+  autoUpdater.quitAndInstall();
+})
+
+// auto updater functions
+autoUpdater.on('update-available', () => {
+  win.webContents.send('update_available');
+});
+
+autoUpdater.on('update-downloaded', () => {
+  win.webContents.send('update_downloaded');
+});
 

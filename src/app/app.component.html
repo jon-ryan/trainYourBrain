@@ -13,6 +13,24 @@
     </div>
 </header>
 
+
+
 <div [@routeAnimation]="prepareRoute(outlet)" id="mainDiv">
-        <router-outlet #outlet="outlet"></router-outlet>
+    <router-outlet #outlet="outlet"></router-outlet>
 </div>
+
+
+<ng-template [ngIf]="showUpdater">
+    <div id="notification">
+        <p >{{ message }}</p>
+        <button id="close-button" (click)="closeNotification()">
+            Close
+        </button>
+        <ng-template [ngIf]="showRestartButton">
+            <button id="restart-button" (click)="restartApp()">
+                Restart
+            </button>
+        </ng-template>
+
+    </div>
+</ng-template>
