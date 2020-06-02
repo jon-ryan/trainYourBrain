@@ -1,65 +1,65 @@
 <div class="container">
-<h2>Add a new Item</h2>
-<h3>Question</h3>
-<textarea id="question-text" name="question-text" [(ngModel)]="questionText" rows="4" cols="70"></textarea>
-<br>
-<br>
-<button class="blue-button" (click)="openFileDialogQuestionImage()">Select Image</button>
-<br>
-<br>
-<img [src]="questionImage" height="200px">
-<br>
-<ng-template [ngIf]="questionImagePath != '' && questionImagePath != undefined">
-    Image located at:
+    <h2>Add a new Item</h2>
+    <h3>Question</h3>
+    <textarea id="question-text" name="question-text" [(ngModel)]="questionText" rows="4" cols="70"></textarea>
     <br>
-</ng-template>
-{{ questionImagePath }}
-<br>
-<br>
-<h3>Answer</h3>
-<textarea id="answer-text" name="answer-text" [(ngModel)]="answerText" rows="4" cols="70"></textarea>
-<br>
-<br>
-<button class="blue-button" (click)="openFileDialogAnswerImage()">Select Image</button>
-<br>
-<br>
-<img [src]="answerImage" height="200px">
-<br>
-<ng-template [ngIf]="answerImagePath != '' && answerImagePath != undefined">
-    Image located at:
     <br>
-</ng-template>
-{{ answerImagePath }}
-<br>
-<br>
-<h3>Category</h3>
-<div class="space-evenly">
-    <div>Create new</div>
-    <input type="text" id="category" class="input-text" [(ngModel)]="categoryNew" name="category">
-</div>
-<br>
-<div class="space-evenly">
-    <div>or assign to an existing category</div>
-    <select [(ngModel)]="categoryFromList">
-        <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
-    </select>
-</div>
-<br>
-<br>
-<button class="blue-button" (click)="submitNewItem()">Add</button>
-
-<br>
-<br>
-<div [style.color]="'crimson'">
-    <ng-template [ngIf]="submitError" [ngIfElse]="none" class="error-text">
-        {{ errorText }}
+    <button class="blue-button" (click)="openFileDialogQuestionImage()">Select Image</button>
+    <br>
+    <br>
+    <img [src]="questionImage" height="200px">
+    <br>
+    <ng-template [ngIf]="questionImagePath != '' && questionImagePath != undefined">
+        Image located at:
+        <br>
     </ng-template>
-    <ng-template #none>
-
+    {{ questionImagePath }}
+    <br>
+    <br>
+    <h3>Answer</h3>
+    <textarea id="answer-text" name="answer-text" [(ngModel)]="answerText" rows="4" cols="70"></textarea>
+    <br>
+    <br>
+    <button class="blue-button" (click)="openFileDialogAnswerImage()">Select Image</button>
+    <br>
+    <br>
+    <img [src]="answerImage" height="200px">
+    <br>
+    <ng-template [ngIf]="answerImagePath != '' && answerImagePath != undefined">
+        Image located at:
+        <br>
     </ng-template>
+    {{ answerImagePath }}
+    <br>
+    <br>
+    <h3>Category</h3>
+    <div class="space-evenly">
+        <div>Create new</div>
+        <input type="text" id="category" class="input-text" [(ngModel)]="categoryNew" name="category">
+    </div>
+    <br>
+    <div class="space-evenly">
+        <div>or assign to an existing category</div>
+        <select [(ngModel)]="categoryFromList">
+            <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
+        </select>
+    </div>
+    <br>
+    <br>
+    <button class="blue-button" (click)="submitNewItem()">Add</button>
 
-</div>
+    <br>
+    <br>
+    <div class="error-text">
+        <ng-template [ngIf]="submitError" [ngIfElse]="none">
+            {{ errorText }}
+        </ng-template>
+        <ng-template #none>
 
-<br>
-<br>
+        </ng-template>
+
+    </div>
+
+    <br>
+    <br>
 </div>

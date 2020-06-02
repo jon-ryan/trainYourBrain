@@ -22,10 +22,12 @@ export class HomeComponent implements OnInit {
   questionText: string = "";
   questionImagePath: string = "";
   questionImage: any;
+  questionImageError: string = "";
 
   answerText: string = "";
   answerImagePath: string = "";
   answerImage: any;
+  answerImageError: string = "";
 
   providedAnswer: string = "";
 
@@ -82,6 +84,9 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    // hide the answer
+    this.showAnswer = false;
+
     var item: any;
     // check if a category is selected
     if (this.selectedCategory != undefined && this.selectedCategory != "") {
@@ -112,8 +117,14 @@ export class HomeComponent implements OnInit {
       try {
         var data = fs.readFileSync(this.questionImagePath);
         this.questionImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+
+            // reset error for Q image
+    this.questionImageError = "";
       } catch (err) {
         console.log(err);
+
+        // Set error message
+        this.questionImageError = "Could not load image. Looking for the file at " + this.questionImagePath;
       }
     } else {
       this.questionImage = undefined;
@@ -124,12 +135,18 @@ export class HomeComponent implements OnInit {
       try {
         var data = fs.readFileSync(this.answerImagePath);
         this.answerImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+            // reset A image error
+    this.answerImageError = "";
       } catch (err) {
         console.log(err);
+
+        // Set error message
+        this.answerImageError = "Could not load image. Looking for the file at " + this.answerImagePath;
       }
     } else {
       this.answerImage = undefined;
     }
+
   }
 
 
