@@ -27,9 +27,14 @@ export class AdditemComponent implements OnInit {
 
   errorText: string = "";
 
+  // reference to main div to scroll to top
+  mainDiv = document.getElementById('mainDiv');
+
   constructor(private _databaseReference: DbserviceService, private _sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {
+    // scroll to top
+    document.documentElement.scrollTop = 0;
     this.getAllCategories();
   }
 
@@ -39,7 +44,7 @@ export class AdditemComponent implements OnInit {
     // a question Text and answer Text is always required
     if (this.questionText == undefined || this.answerText == undefined) {
       this.submitError = true;
-      this.errorText = "Please provide some text or an image for both, question and answer.";
+      this.errorText = "Please provide some text for both, question and answer.";
       return;
     }
 
@@ -56,12 +61,11 @@ export class AdditemComponent implements OnInit {
       return;
     }
 
+    // scroll to top
+    document.documentElement.scrollTop = 0;
+
     // reset submit error
     this.submitError = false;
-
-    // TODO
-    // deal with files
-
 
     var tmpCategory: string;
     // get the valid category

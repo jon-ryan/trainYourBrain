@@ -10,6 +10,8 @@ export class AboutComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    // scroll to top
+    document.documentElement.scrollTop = 0;
   }
 
 }

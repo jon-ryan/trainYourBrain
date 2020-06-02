@@ -29,6 +29,9 @@ export class SessionsComponent implements OnInit {
   constructor(private _sessionsDB: SessionDBService) { }
 
   ngOnInit(): void {
+    // scroll to top
+    document.documentElement.scrollTop = 0;
+    
     this.getAllItems();
 
     this.toggleDeleteAll = false;

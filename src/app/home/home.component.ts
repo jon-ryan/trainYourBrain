@@ -64,6 +64,10 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // scroll to top
+    document.documentElement.scrollTop = 0;
+
+
     // call async init method
     this.initialSetup();
 

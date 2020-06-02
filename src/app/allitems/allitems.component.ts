@@ -21,6 +21,9 @@ export class AllitemsComponent implements OnInit {
   constructor(private _databaseReference: DbserviceService) { }
 
   ngOnInit(): void {
+    // scroll to top
+    document.documentElement.scrollTop = 0;
+
     this.getAllItems();
     this.getAllCategories();
     this.toggleDeleteAll = false;
