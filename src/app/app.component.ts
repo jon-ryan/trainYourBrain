@@ -37,16 +37,17 @@ export class AppComponent {
 
     ipcRenderer.on("update-available", () => {
       ipcRenderer.removeAllListeners("update-available");
-      this.message = "An update is available. Downloading now...";
+      this.message = "An update is available. You will be notified when the download has finished.";
       this.showUpdater = true;
     });
 
+    /* Not working at the moment
     ipcRenderer.on('update-downloaded', () => {
       ipcRenderer.removeAllListeners('update-downloaded');
       this.message = 'Update Downloaded. It will be installed on restart. Restart now?';
       this.showRestartButton = true;
       this.showUpdater = true;
-    });
+    });*/
 
     ipcRenderer.send("app-ready");
     console.log("app  ready sent");

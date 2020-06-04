@@ -13,7 +13,7 @@ function createWindow(): BrowserWindow {
   const electronScreen = screen;
   const size = electronScreen.getPrimaryDisplay().workAreaSize;
 
-  const windowWidth = 950;
+  const windowWidth = 1000;
   const windowHeight = size.height < 600 ? size.height - 100 : 600;
 
   // Create the browser window.
@@ -107,6 +107,13 @@ ipcMain.handle("app_version", (_) => {
 })
 
 ipcMain.on("restart_app", () => {
+  /*setImmediate(() => {
+    app.removeAllListeners("window-all-closed")
+    if (focusedWindow != null) {
+      focusedWindow.close()
+    }
+    autoUpdater.quitAndInstall(false)
+  })*/
   autoUpdater.quitAndInstall();
 })
 

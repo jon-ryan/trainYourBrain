@@ -4,7 +4,7 @@
   "copyright": "Copyright © 2020 Jonathan Herrmann",
   "publish": {
     "provider": "github",
-    "token": "5bf81d2f691ae38bee6a6dcb04af77e32d802f35"
+    "token": ""
   },
   "directories": {
     "output": "release/${os}/${arch}"
