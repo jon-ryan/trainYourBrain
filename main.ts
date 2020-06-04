@@ -118,10 +118,10 @@ ipcMain.on("app-ready", () => {
 // auto updater functions
 autoUpdater.on('update-available', () => {
   console.log("update avaailabel executed")
-  win.webContents.send('update_available');
+  win.webContents.send('update-available');
 });
 
 autoUpdater.on('update-downloaded', () => {
-  win.webContents.send('update_downloaded');
+  win.webContents.send('update-downloaded');
 });
 

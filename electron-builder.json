@@ -4,14 +4,13 @@
   "copyright": "Copyright © 2020 Jonathan Herrmann",
   "publish": {
     "provider": "github",
-    "token": ""
+    "token": "5bf81d2f691ae38bee6a6dcb04af77e32d802f35"
   },
   "directories": {
     "output": "release/${os}/${arch}"
   },
   "files": [
     "**/*",
-    "dist/assets/*",
     "!**/*.ts",
     "!*.code-workspace",
     "!LICENSE.md",
@@ -32,7 +31,7 @@
       {
         "target": "nsis",
         "arch": [
-          "x64",
+
           "ia32"
         ]
       }

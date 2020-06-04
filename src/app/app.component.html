@@ -23,11 +23,12 @@
 <ng-template [ngIf]="showUpdater">
     <div id="notification">
         <p >{{ message }}</p>
-        <button id="close-button" (click)="closeNotification()">
+        <button id="close-button" (click)="closeNotification()" class="secondary-button">
             Close
         </button>
+        <br>
         <ng-template [ngIf]="showRestartButton">
-            <button id="restart-button" (click)="restartApp()">
+            <button id="restart-button" (click)="restartApp()" class="secondary-button">
                 Restart
             </button>
         </ng-template>

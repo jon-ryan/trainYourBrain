@@ -35,14 +35,14 @@ export class AppComponent {
       console.log('Mode web');
     }
 
-    ipcRenderer.on("update_available", () => {
-      ipcRenderer.removeAllListeners("update_available");
+    ipcRenderer.on("update-available", () => {
+      ipcRenderer.removeAllListeners("update-available");
       this.message = "An update is available. Downloading now...";
       this.showUpdater = true;
     });
 
-    ipcRenderer.on('update_downloaded', () => {
-      ipcRenderer.removeAllListeners('update_downloaded');
+    ipcRenderer.on('update-downloaded', () => {
+      ipcRenderer.removeAllListeners('update-downloaded');
       this.message = 'Update Downloaded. It will be installed on restart. Restart now?';
       this.showRestartButton = true;
       this.showUpdater = true;
