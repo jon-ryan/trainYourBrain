@@ -19,7 +19,7 @@ Make sure, you have npm installed
 
 Clone this repository locally
 ``` bash
-git clone https://github.com/maximegris/angular-electron.git
+git clone https://github.com/jon-ryan/trainYourBrain.git
 ```
 
 
