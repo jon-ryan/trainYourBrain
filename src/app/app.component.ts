@@ -47,6 +47,9 @@ export class AppComponent {
       this.showRestartButton = true;
       this.showUpdater = true;
     });
+
+    ipcRenderer.send("app-ready");
+    console.log("app  ready sent");
   }
 
   public prepareRoute (outlet: RouterOutlet) {

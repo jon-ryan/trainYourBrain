@@ -27,9 +27,6 @@ export class AdditemComponent implements OnInit {
 
   errorText: string = "";
 
-  // reference to main div to scroll to top
-  mainDiv = document.getElementById('mainDiv');
-
   constructor(private _databaseReference: DbserviceService, private _sanitizer: DomSanitizer) { }
 
   ngOnInit(): void {

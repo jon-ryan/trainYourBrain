@@ -60,9 +60,6 @@ function createWindow(): BrowserWindow {
     win = null;
   });
 
-  win.once('ready-to-show', () => {
-    autoUpdater.checkForUpdatesAndNotify();
-  });
   return win;
 }
 
@@ -104,16 +101,23 @@ ipcMain.handle("showOpenFileDialog", async (_) => {
   return dialog.showOpenDialogSync({ properties: ['openFile'], filters: [{ name: "Image", extensions: ['png', 'jpg'] }] });
 })
 
-ipcMain.on('app_version', (event) => {
-  event.sender.send('app_version', { version: app.getVersion() });
+
+ipcMain.handle("app_version", (_) => {
+  return app.getVersion();
 })
 
 ipcMain.on("restart_app", () => {
   autoUpdater.quitAndInstall();
 })
 
+ipcMain.on("app-ready", () => {
+  console.log("app ready");
+  autoUpdater.checkForUpdatesAndNotify();
+}) 
+
 // auto updater functions
 autoUpdater.on('update-available', () => {
+  console.log("update avaailabel executed")
   win.webContents.send('update_available');
 });
 

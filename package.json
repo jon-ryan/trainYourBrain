@@ -1,8 +1,9 @@
 {
   "name": "train-your-brain",
-  "version": "1.0.4",
+  "version": "1.0.6",
   "description": "Train Your Brain helps you learning",
   "homepage": "https://github.com/jon-ryan/trainYourBrain",
+  "license": "GPLv3",
   "author": {
     "name": "Jonathan Herrmann",
     "email": "jonathan.herrmann@mailbox.org"
@@ -14,8 +15,8 @@
     "studying"
   ],
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/jon-ryan/trainYourBrain.git"
+    "type": "git",
+    "url": "https://github.com/jon-ryan/trainYourBrain.git"
   },
   "main": "main.js",
   "private": true,

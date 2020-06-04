@@ -1,33 +1,41 @@
 {
-  "appId": "de.github.trainyourbrain",
+  "appId": "com.github.trainyourbrain",
   "productName": "Train Your Brain",
+  "copyright": "Copyright © 2020 Jonathan Herrmann",
   "publish": {
     "provider": "github",
-    "token": "d2b659e3091db6985785376cbe7e92f3f4e29db9"
+    "token": ""
   },
   "directories": {
-    "output": "release/"
+    "output": "release/${os}/${arch}"
   },
-    "files": [
-        "**/*",
-        "!**/*.ts",
-        "!*.code-workspace",
-        "!LICENSE.md",
-        "!package.json",
-        "!package-lock.json",
-        "!src/",
-        "!e2e/",
-        "!hooks/",
-        "!angular.json",
-        "!_config.yml",
-        "!karma.conf.js",
-        "!tsconfig.json",
-        "!tslint.json"
-    ],
+  "files": [
+    "**/*",
+    "dist/assets/*",
+    "!**/*.ts",
+    "!*.code-workspace",
+    "!LICENSE.md",
+    "!package.json",
+    "!package-lock.json",
+    "!src/",
+    "!e2e/",
+    "!hooks/",
+    "!angular.json",
+    "!_config.yml",
+    "!karma.conf.js",
+    "!tsconfig.json",
+    "!tslint.json"
+  ],
   "win": {
     "icon": "dist/assets/icons",
     "target": [
-      "portable"
+      {
+        "target": "nsis",
+        "arch": [
+          "x64",
+          "ia32"
+        ]
+      }
     ]
   },
   "mac": {
