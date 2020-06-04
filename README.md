@@ -3,10 +3,13 @@ With Train-Your-Brain you can easily train yourself on knowledge and facts you r
 This is an ideal companion for every student who is trying to get the hang on their subject.
 
 # Download the App
-See the download links for your platform below, you will be redirected to Google Drive. Before running the app you have to extract the .zip file.
-- [Windows](https://drive.google.com/file/d/1YdVVTFpZFF77a-z3V0KY8Pftze5FK6qh/view?usp=sharing) Please note, that since I'm not a certified Windows developer, Windows will warn you to not execute the app. If you don't trust me and don't want to use this version you can build the app from source. To do this, please see the instructions below.
-- [Linux (AppImage)](https://drive.google.com/file/d/1Ph3pm7N4obf_3mlM0tZ907jmR9c4i3Yq/view?usp=sharing)
+To download the app for your platform head over to [Releases](https://github.com/jon-ryan/trainYourBrain/releases) and choose the according files from the latest release.
+
+Files to download per platform:
+- Windows: You need the files `latest.yml`, `Train-Your-Brain-Setup-x.x.x.exe.blockmap` and `Train-Your-Brain-Setup-x.x.x.exe`. Download those files and launch the file `Train-Your-Brain-Setup-x.x.x.exe`. Please note, that since I'm not a certified Windows developer, Windows will warn you to not execute the app. If you don't trust me and don't want to use this version you can build the app from source. To do this, please see the instructions below.
+- Linux (AppImage): You need the files `latest-linux.yml` and `Train-Your-Brain-1.1.0.AppImage`. Launch the AppImage and integrate it. Also copy the .yml file into your Applications folder next to the integrated AppImage. Please note, that auto-updater is not working at the moment.
 - Mac: Unfortunately, at the moment you have to build from source, if you are on a Mac
+
 
 # Clone and build from source
 If you want to build this app from source follow these steps:
