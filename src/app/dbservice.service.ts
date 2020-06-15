@@ -9,7 +9,7 @@ export class DbserviceService {
   // reference to database
   private questionDatabase: PouchDB.Database;
   private categoryDatabase: PouchDB.Database;
-  private isInstansiated: boolean;
+  private isInstantiated: boolean;
 
   // local array to store the question's id
   private questionIDs: Array<string> = [];
@@ -22,11 +22,11 @@ export class DbserviceService {
 
 
   constructor() {
-    if (!this.isInstansiated) {
+    if (!this.isInstantiated) {
       // instantiate
       this.questionDatabase = new PouchDB('questions');
       this.categoryDatabase = new PouchDB('categories');
-      this.isInstansiated = true;
+      this.isInstantiated = true;
     }
 
     this.questionCount = 0;
@@ -44,6 +44,7 @@ export class DbserviceService {
     this.categoryDatabase.viewCleanup();
     this.categoryDatabase.compact();
   }
+
 
   // getRandomQuestion returns a random item from the database
   public async getRandomQuestion() {

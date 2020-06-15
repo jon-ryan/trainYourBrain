@@ -99,6 +99,7 @@
   "dependencies": {
     "@angular/animations": "9.1.9",
     "@types/pouchdb": "6.4.0",
+    "@types/sqlite3": "3.1.6",
     "electron-updater": "4.3.1",
     "pouchdb": "7.2.1",
     "pouchdb-browser": "7.2.1",

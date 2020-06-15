@@ -18,6 +18,8 @@ export class AllitemsComponent implements OnInit {
 
   toggleDeleteAll: boolean = false;
 
+  public open_close: string = "Open";
+
   constructor(private _databaseReference: DbserviceService) { }
 
   ngOnInit(): void {
@@ -81,6 +83,12 @@ export class AllitemsComponent implements OnInit {
 
   public toggleConfirmDeleteAll() {
     this.toggleDeleteAll = !this.toggleDeleteAll;
+
+    if (this.open_close == "Open") {
+      this.open_close = "Close";
+    } else {
+      this.open_close = "Open";
+    }
   }
 
   public async deleteAllDocuments() {

@@ -28,6 +28,8 @@ export class SessionsComponent implements OnInit {
 
   constructor(private _sessionsDB: SessionDBService) { }
 
+  public open_close: string = "Open";
+
   ngOnInit(): void {
     // scroll to top
     document.documentElement.scrollTop = 0;
@@ -39,6 +41,12 @@ export class SessionsComponent implements OnInit {
 
   public toggleConfirmDeleteAll() {
     this.toggleDeleteAll = !this.toggleDeleteAll;
+
+    if (this.open_close == "Open") {
+      this.open_close = "Close";
+    } else {
+      this.open_close = "Open";
+    }
   }
 
   public async deleteAllDocuments() {
