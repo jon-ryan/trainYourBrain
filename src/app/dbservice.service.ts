@@ -13,11 +13,16 @@ export class DbserviceService {
 
   // local array to store the question's id
   private questionIDs: Array<string> = [];
+  // selector to iterate the array of questions
+  private questionSelector: number = 0;
   // questionCount counts the items in the database and the array
   private questionCount: number = 0;
 
+
+
   // category array to store the questions in a certian category
   private questionsByCategory: Array<any> = [];
+  private questionsByCategorySelector: number = 0;
   private selectedCategory: string = "";
 
 
@@ -45,38 +50,115 @@ export class DbserviceService {
     this.categoryDatabase.compact();
   }
 
+  // shuffle question list
+  private shuffleArray(a: Array<string>) {
+    var j: number, x: string, i: number;
+    for (i = a.length - 1; i > 0; i--) {
+      j = Math.floor(Math.random() * (i + 1));
+      x = a[i];
+      a[i] = a[j];
+      a[j] = x;
+    }
+    return a;
+  }
+
 
   // getRandomQuestion returns a random item from the database
   public async getRandomQuestion() {
-    // generate a random number
-    var randomNumber: number = Math.floor(Math.random() * this.questionCount - 1) + 1;
+    // check if the questionlist was iterated once
+    if (this.questionIDs.length == this.questionSelector) {
+      // list has been iterated
+      // shuffle list again
+      this.questionIDs = this.shuffleArray(this.questionIDs);
+      this.questionSelector = 0;
+    }
 
     var doc: Map<String, any>;
     try {
-      doc = await this.questionDatabase.get(this.questionIDs[randomNumber]);
+      doc = await this.questionDatabase.get(this.questionIDs[this.questionSelector]);
     } catch (err) {
       console.log(err);
     }
+
+    // increment selector
+    this.questionSelector++;
+
     return doc;
   }
 
-  // getRandomQuestionInCategory returns a random question matching the rquested category
+  // getRandomQuestionInCategory returns a random question within a specified category
+  // it utilizes an additional array for the category selection
   public async getRandomQuestionInCategory(category: string) {
-    // get list of question IDs
-    var tmpArray = await this.getAllQuestionsWithSpecificCategory(category);
+    // check if this category was already extracted
+    if (this.selectedCategory == category) {
+      // check if the list has been completely iterated
+      if (this.questionsByCategory.length - 1 == this.questionsByCategorySelector) {
+        // reset iterator
+        this.questionsByCategorySelector = 0;
+        // reshuffle the array
+        this.questionsByCategory = this.shuffleArray(this.questionsByCategory);
 
-    // get random number
-    var randomNumber: number = Math.floor(Math.random() * tmpArray.length - 1) + 1;
+        return this.questionsByCategory[this.questionsByCategorySelector];
+      } else {
+        // increment selector
+        this.questionsByCategorySelector++;
+        // return list of questions
+        return this.questionsByCategory[this.questionsByCategorySelector];
+      }
+    }
 
-    // get random question
+    // this is a new category
+    this.selectedCategory = category;
+
+    // reset selector
+    this.questionsByCategorySelector = 0;
+
     try {
-      var doc = await this.questionDatabase.get(tmpArray[randomNumber]._id);
+      var result = await this.questionDatabase.allDocs({ include_docs: true })
     } catch (err) {
       console.log(err);
     }
 
-    // return question
-    return doc;
+    // add every document to an array
+    this.questionsByCategory = [];
+    var i: number = 0;
+    for (i = 0; i < result.total_rows; i++) {
+      if (result.rows[i].doc["category"] == category) {
+        this.questionsByCategory.push(result.rows[i].doc);
+      }
+    }
+
+    // shuffle list
+    this.questionsByCategory = this.shuffleArray(this.questionsByCategory);
+
+    return this.questionsByCategory[this.questionsByCategorySelector];
+  }
+
+  // getAllQuestionsWithSpecificCategory is utlizied by allItems when selecting a category
+  public async getAllQuestionsWithSpecificCategory(category: string) {
+    // check if this category was already extracted
+    if (this.selectedCategory == category) {
+      return this.questionsByCategory;
+    }
+
+    // this is a new category
+    this.selectedCategory = category;
+
+    try {
+      var result = await this.questionDatabase.allDocs({ include_docs: true })
+    } catch (err) {
+      console.log(err);
+    }
+
+    // add every document to an array
+    this.questionsByCategory = [];
+    var i: number = 0;
+    for (i = 0; i < result.total_rows; i++) {
+      if (result.rows[i].doc["category"] == category) {
+        this.questionsByCategory.push(result.rows[i].doc);
+      }
+    }
+    return this.questionsByCategory;
   }
 
   // getSpecific returns the item at the position id
@@ -162,7 +244,8 @@ export class DbserviceService {
       answerImagePath: answerImagePath,
       total: total,
       correct: correct,
-      category: category };
+      category: category
+    };
 
     // update database
     try {
@@ -203,6 +286,9 @@ export class DbserviceService {
         this.questionIDs.push(result.rows[i].id);
       }
 
+      // shuffle array
+      this.questionIDs = this.shuffleArray(this.questionIDs);
+
       // update item count
       this.getQuestionCountFromDatabase();
 
@@ -229,31 +315,7 @@ export class DbserviceService {
     }
   }
 
-  public async getAllQuestionsWithSpecificCategory(category: string) {
-    // check if this category was already extracted
-    if (this.selectedCategory == category) {
-      return this.questionsByCategory;
-    }
 
-    // this is a new category
-    this.selectedCategory = category;
-
-    try {
-      var result = await this.questionDatabase.allDocs({ include_docs: true })
-    } catch (err) {
-      console.log(err);
-    }
-
-    // add every document to an array
-    this.questionsByCategory = [];
-    var i: number = 0;
-    for (i = 0; i < result.total_rows; i++) {
-      if (result.rows[i].doc["category"] == category) {
-        this.questionsByCategory.push(result.rows[i].doc);
-      }
-    }
-    return this.questionsByCategory;
-  }
 
   public async getAllCategories() {
     try {
