@@ -79,6 +79,9 @@ export class HomeComponent implements OnInit {
   }
 
   private async getRandomItem() {
+    // scroll to top
+    document.documentElement.scrollTop = 0;
+
     // check if there are items that can be fetched
     if (this.itemsInDatabase == 0) {
       return;
