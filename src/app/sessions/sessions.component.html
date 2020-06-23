@@ -27,7 +27,7 @@
 <h3>Clear Session History</h3>
 <div class="space-evenly">
     <div>If you want to clean up the session history, you can delete all your records and make a fresh start.</div>
-    <div (click)="toggleConfirmDeleteAll()" [style.cursor]="'pointer'"><strong>{{ open_close }}</strong></div>
+    <div (click)="toggleConfirmDeleteAll()" class="blue-flat-button"><strong>{{ open_close }}</strong></div>
 </div>
 <br>
 <br>
@@ -56,7 +56,7 @@
         <div>Total: {{ session["totalSession"] }}</div>
         <div>Correct: {{ session["correctSession"] }}</div>
         <div>Average: {{ session["correctSession"] / session["totalSession"] * 100 | number: '2.1-1' }}%</div>
-        <div (click)="toggleConfirmDelete(i)" [style.cursor]="'pointer'"><strong>Delete</strong></div>
+        <div (click)="toggleConfirmDelete(i)" class="red-flat-button"><strong>Delete</strong></div>
     </div>
 
     <ng-template [ngIf]="toggleDeleteArray[i]">

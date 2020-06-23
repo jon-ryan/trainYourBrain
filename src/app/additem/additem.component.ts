@@ -45,6 +45,8 @@ export class AdditemComponent implements OnInit {
       return;
     }
 
+    
+    
     // check if a category is selected or if a new category is created and an old one selected
     if ((this.categoryNew == undefined || this.categoryNew == "") && (this.categoryFromList == undefined || this.categoryFromList == "")) {
       this.submitError = true;
@@ -65,6 +67,7 @@ export class AdditemComponent implements OnInit {
     this.submitError = false;
 
     var tmpCategory: string;
+    
     // get the valid category
     if (this.categoryNew != undefined && this.categoryNew != "") {
       tmpCategory = this.categoryNew;
@@ -75,8 +78,11 @@ export class AdditemComponent implements OnInit {
     // put into database
     await this._databaseReference.putQuestion(this.questionText, this.answerText, tmpCategory, this.questionImagePath, this.answerImagePath);
 
-    // refresh all categories
-    await this.getAllCategories();
+    // refresh all categories if a new category has been assigned
+    if (this.categoryNew != undefined && this.categoryNew != "") {
+      await this.getAllCategories();
+    }
+    
 
     // reset values
     this.questionText = undefined;
@@ -86,8 +92,8 @@ export class AdditemComponent implements OnInit {
     this.answerImagePath = "";
     this.answerImage = undefined;
     this.categoryNew = undefined;
-    this.categoryFromList = undefined;
   }
+
 
   private async getAllCategories() {
     this.existingCategories = await this._databaseReference.getAllCategories();

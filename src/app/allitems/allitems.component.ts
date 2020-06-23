@@ -48,6 +48,10 @@ export class AllitemsComponent implements OnInit {
   }
 
   private async getFilteredQuestions(category: string) {
+    // debug
+    console.log("get filtered questions")
+
+    
     this.allItems = await this._databaseReference.getAllQuestionsWithSpecificCategory(category);
 
     // initialize toggleDelete
@@ -73,8 +77,15 @@ export class AllitemsComponent implements OnInit {
     // delete item
     await this._databaseReference.deleteQuestion(id, rev);
 
-
-    this.getAllItems();
+    // if a category is selected, get all according questions
+    if (this.selectedCategory != "") {
+      await this.getFilteredQuestions(this.selectedCategory);
+      // debug
+      console.log("delete item with category selected");
+    } else {
+      // get all items
+      await this.getAllItems();
+    }
   }
 
   public toggleConfirmDelete(i: number) {

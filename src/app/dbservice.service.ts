@@ -18,6 +18,9 @@ export class DbserviceService {
   // questionCount counts the items in the database and the array
   private questionCount: number = 0;
 
+  // modified flag
+  private databaseModified: boolean = false;
+
 
 
   // category array to store the questions in a certian category
@@ -137,7 +140,7 @@ export class DbserviceService {
   // getAllQuestionsWithSpecificCategory is utlizied by allItems when selecting a category
   public async getAllQuestionsWithSpecificCategory(category: string) {
     // check if this category was already extracted
-    if (this.selectedCategory == category) {
+    if (this.selectedCategory == category && !this.databaseModified) {
       return this.questionsByCategory;
     }
 
@@ -371,6 +374,9 @@ export class DbserviceService {
     } catch (err) {
       console.log(err);
     }
+
+    // mark the database as modified
+    this.databaseModified = true;
   }
 
 
