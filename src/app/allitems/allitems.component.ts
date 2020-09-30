@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DbserviceService } from '../dbservice.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-allitems',
@@ -20,7 +21,7 @@ export class AllitemsComponent implements OnInit {
 
   public open_close: string = "Open";
 
-  constructor(private _databaseReference: DbserviceService) { }
+  constructor(private _databaseReference: DbserviceService, private _router: Router) { }
 
   ngOnInit(): void {
     // scroll to top
@@ -69,6 +70,15 @@ export class AllitemsComponent implements OnInit {
       this.getAllItems();
     }
   }
+
+  public async editItem(id: string) {
+    // set the item id to edit and the page where the edit came from
+    this._databaseReference.setEditItem(id, '/allitems')
+
+    // route to edit page
+    this._router.navigateByUrl('/edit')
+  }
+
 
   // deleteItem will prompt the database to delete the specified item
   public async deleteItem(i: number, id: string, rev: string) {

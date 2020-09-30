@@ -21,6 +21,9 @@ export class DbserviceService {
   // modified flag
   private databaseModified: boolean = false;
 
+  // temp variables for editing
+  private editId: string;
+  private pageToRouteBackTo: string;
 
 
   // category array to store the questions in a certian category
@@ -136,6 +139,7 @@ export class DbserviceService {
 
     return this.questionsByCategory[this.questionsByCategorySelector];
   }
+
 
   // getAllQuestionsWithSpecificCategory is utlizied by allItems when selecting a category
   public async getAllQuestionsWithSpecificCategory(category: string) {
@@ -256,6 +260,25 @@ export class DbserviceService {
     } catch (err) {
 
     }
+  }
+
+  public setEditItem(id: string, pageToRouteBackTo: string) {
+    this.editId = id;
+    this.pageToRouteBackTo = pageToRouteBackTo;
+  }
+
+  public async getEditItem() {
+    var doc: Map<String, any>;
+    try {
+      doc = await this.questionDatabase.get(this.editId);
+    } catch (err) {
+      console.log(err);
+    }
+    return doc;
+  }
+
+  public getPageToRouteBackTo() {
+    return this.pageToRouteBackTo;
   }
 
   // getItemCount returns how many items are in the database

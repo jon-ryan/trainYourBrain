@@ -23,6 +23,7 @@ import { AboutComponent } from './about/about.component';
 import { SessionsComponent } from './sessions/sessions.component';
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { EditComponent } from './edit/edit.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
@@ -30,7 +31,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
 }
 
 @NgModule({
-  declarations: [AppComponent, AdditemComponent, AllitemsComponent, AboutComponent, SessionsComponent],
+  declarations: [AppComponent, AdditemComponent, AllitemsComponent, AboutComponent, SessionsComponent, EditComponent],
   imports: [
     BrowserModule,
     FormsModule,

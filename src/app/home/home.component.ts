@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { DbserviceService } from '../dbservice.service';
 import { SessionDBService } from '../session-db.service';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
 import * as fs from 'fs';
 
 
@@ -48,9 +49,7 @@ export class HomeComponent implements OnInit {
   totalThisSession: number = 0;
   correctThisSession: number = 0;
 
-  constructor(private _databaseReference: DbserviceService, private _sessionReference: SessionDBService, private _sanitizer: DomSanitizer) {
-    this.initialSetup();
-    this.getAllCategories();
+  constructor(private _databaseReference: DbserviceService, private _sessionReference: SessionDBService, private _sanitizer: DomSanitizer, private _router: Router) {
   }
 
   private async initialSetup() {
@@ -70,8 +69,8 @@ export class HomeComponent implements OnInit {
     document.documentElement.scrollTop = 0;
 
 
-    // call async init method
     this.initialSetup();
+    this.getAllCategories();
 
     // get session counter
     this.totalThisSession = this._sessionReference.getTotalSession();
@@ -166,6 +165,14 @@ export class HomeComponent implements OnInit {
 
     // get the next question
     this.getRandomItem();
+  }
+
+  public openEditPage() {
+    // set the item id to edit and the page where the edit came from
+    this._databaseReference.setEditItem(this.questionID, '/')
+
+    // route to edit page
+    this._router.navigateByUrl('/edit')
   }
 
   // correctAnswer will increment total and correct answered, update the item

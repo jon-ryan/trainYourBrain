@@ -7,6 +7,7 @@ import { AdditemComponent } from './additem/additem.component';
 import { AllitemsComponent } from './allitems/allitems.component';
 import { AboutComponent } from './about/about.component';
 import { SessionsComponent } from './sessions/sessions.component';
+import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
     data: {
       animation: 'about',
     },
+  },
+  {
+    path: 'edit',
+    component: EditComponent,
   },
   {
     path: '**',
