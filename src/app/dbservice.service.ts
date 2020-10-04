@@ -31,6 +31,8 @@ export class DbserviceService {
   private questionsByCategorySelector: number = 0;
   private selectedCategory: string = "";
 
+  private questionsWrongThisSession: Array<any> = [];
+
 
   constructor() {
     if (!this.isInstantiated) {
@@ -341,8 +343,6 @@ export class DbserviceService {
     }
   }
 
-
-
   public async getAllCategories() {
     try {
       var result = await this.categoryDatabase.allDocs({ include_docs: true });
@@ -458,6 +458,27 @@ export class DbserviceService {
     } catch(err) {
       console.log(err)
     }
+  }
 
+  // adds question which was answered incorrectly
+  public addIncorrect(id: string) {
+    this.questionsWrongThisSession.push(id);
+  }
+
+  // gets first question in the list of wrong questions this session
+  public async getNextIncorrect() {
+    if (this.questionsWrongThisSession.length == 0) {
+      return 0;
+    }
+    
+    var id = this.questionsWrongThisSession.shift();
+
+    try {
+      var doc = await this.questionDatabase.get(id);
+    } catch (err) {
+      console.log(err);
+    }
+
+    return doc;
   }
 }

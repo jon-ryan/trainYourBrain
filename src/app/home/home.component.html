@@ -5,7 +5,9 @@
   </div>
 
 
+  <!-- Template to display either the default screen to work on your item or to display information that the database is empty -->
   <ng-template [ngIf]="itemsInDatabase != 0" [ngIfElse]="empty">
+
 
     <div class="space-evenly">
       <div>Filter by Category:</div>
@@ -15,68 +17,82 @@
     </div>
     <br>
 
-
-    <!-- only display the text element if there is actually a text to display-->
-    <ng-template [ngIf]="questionText != ''">
-      {{ questionText }}
+    <!-- Template to display either that all items from the "Wrong this session" category have been answered correctly or the default screen to work on -->
+    <ng-template [ngIf]="allIncorrectNowCorrectlyAnswered && selectedCategory == 'Wrong this session'"
+      [ngIfElse]="wrongsLeft">
       <br>
       <br>
+      Congratulations! You got all your wrong answeres right. Select a new category to continue training!
     </ng-template>
 
-    <img [src]="questionImage" height="200px">
-
-    <!-- error message if the image can't be loaded -->
-    <div class="error-text">
-      <ng-template [ngIf]="questionImageError != ''">
-        {{ questionImageError }}
-      </ng-template>
-    </div>
 
 
-    <br>
-
-
-    <!-- textarea for own solution -->
-    <h3>Your Answer</h3>
-    <textarea rows="4" cols="70" [(ngModel)]="providedAnswer"></textarea>
-    <br>
-    <br>
-
-    <!-- submit button -->
-    <ng-template [ngIf]="!showAnswer">
-      <button class="blue-button" (click)="showSolution()">Show Solution</button>
-      <button class="secondary-button" (click)="skipQuestion()" [style.margin-left]="'20px'">Skip</button>
-    </ng-template>
-
-    <br>
-    <br>
-    <ng-template [ngIf]="showAnswer">
-      <h2>Answer</h2>
-      <ng-template [ngIf]="answerText != ''">
-        {{ answerText }}
+    <ng-template #wrongsLeft>
+      <!-- only display the text element if there is actually a text to display-->
+      <ng-template [ngIf]="questionText != ''">
+        {{ questionText }}
         <br>
         <br>
       </ng-template>
 
-      <img [src]="answerImage" height="200px">
+      <img [src]="questionImage" height="200px">
 
       <!-- error message if the image can't be loaded -->
       <div class="error-text">
-        <ng-template [ngIf]="answerImage != ''" class="error-text">
-          {{ answerImageError }}
+        <ng-template [ngIf]="questionImageError != ''">
+          {{ questionImageError }}
         </ng-template>
       </div>
 
+
+      <br>
+
+
+      <!-- textarea for own solution -->
+      <h3>Your Answer</h3>
+      <textarea rows="4" cols="70" [(ngModel)]="providedAnswer"></textarea>
       <br>
       <br>
 
-      <!-- continue to next question-->
-      <button class="red-button" (click)="incorrectAnswer()">Incorrect</button>
-      <button class="blue-button" (click)="correctAnswer()" [style.margin-left]="'20px'">Correct</button>
-      <button class="secondary-button" (click)="openEditPage()" [style.margin-left]="'20px'">Edit</button>
-      
+      <!-- submit button -->
+      <ng-template [ngIf]="!showAnswer">
+        <button class="blue-button" (click)="showSolution()">Show Solution</button>
+        <button class="secondary-button" (click)="skipQuestion()" [style.margin-left]="'20px'">Skip</button>
+        <button class="secondary-button" (click)="openEditPage()" [style.margin-left]="'20px'">Edit</button>
+      </ng-template>
 
+      <br>
+      <br>
+      <ng-template [ngIf]="showAnswer">
+        <h2>Answer</h2>
+        <ng-template [ngIf]="answerText != ''">
+          {{ answerText }}
+          <br>
+          <br>
+        </ng-template>
+
+        <img [src]="answerImage" height="200px">
+
+        <!-- error message if the image can't be loaded -->
+        <div class="error-text">
+          <ng-template [ngIf]="answerImage != ''" class="error-text">
+            {{ answerImageError }}
+          </ng-template>
+        </div>
+
+        <br>
+        <br>
+
+        <!-- continue to next question-->
+        <button class="red-button" (click)="incorrectAnswer()">Incorrect</button>
+        <button class="blue-button" (click)="correctAnswer()" [style.margin-left]="'20px'">Correct</button>
+        <button class="secondary-button" (click)="openEditPage()" [style.margin-left]="'20px'">Edit</button>
+
+
+      </ng-template>
     </ng-template>
+
+
   </ng-template>
 
   <ng-template #empty>

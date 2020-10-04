@@ -35,6 +35,11 @@ export const slider =
 
         // about to other pages
         transition("about => *", slideTo("left")),
+
+        // edit page to toher pages
+        transition("edit => *", slideTo("left")),
+        // other pages to edit page
+        transition("* => edit", slideTo("right"))
     ]);
 
 

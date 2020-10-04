@@ -71,20 +71,26 @@ export class EditComponent implements OnInit {
 
     // load images
     // question image
-    try {
-      var data = fs.readFileSync(this.questionImagePath);
-      this.questionImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
-    } catch (err) {
-      console.log(err);
+    if (this.questionImagePath != '') {
+      try {
+        var data = fs.readFileSync(this.questionImagePath);
+        this.questionImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+      } catch (err) {
+        console.log(err);
+      }
     }
 
+
     // answer image
-    try {
-      var data = fs.readFileSync(this.answerImagePath);
-      this.answerImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
-    } catch (err) {
-      console.log(err);
+    if (this.answerImagePath != '') {
+      try {
+        var data = fs.readFileSync(this.answerImagePath);
+        this.answerImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
+      } catch (err) {
+        console.log(err);
+      }
     }
+
   }
 
   private async getAllCategories() {
@@ -129,8 +135,8 @@ export class EditComponent implements OnInit {
       return;
     }
 
-    
-    
+
+
     // check if a category is selected or if a new category is created and an old one selected
     if ((this.categoryNew == undefined || this.categoryNew == "") && (this.categoryFromList == undefined || this.categoryFromList == "")) {
       this.submitError = true;
@@ -149,7 +155,7 @@ export class EditComponent implements OnInit {
     this.submitError = false;
 
     var tmpCategory: string;
-    
+
     // get the valid category
     if (this.categoryNew != undefined && this.categoryNew != "") {
       tmpCategory = this.categoryNew;
@@ -159,7 +165,7 @@ export class EditComponent implements OnInit {
 
     // update database
     await this._database.updateQuestion(this.questionID, this.questionRev, this.questionText, this.questionImagePath, this.answerText, this.answerImagePath, this.questionTotalAnswered, this.questionCorrectAnswered, this.category)
-    
+
     this._router.navigateByUrl(this.returnTo)
   }
 

@@ -49,6 +49,9 @@ const routes: Routes = [
   {
     path: 'edit',
     component: EditComponent,
+    data: {
+      animation: 'edit',
+    },
   },
   {
     path: '**',

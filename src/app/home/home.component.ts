@@ -40,7 +40,8 @@ export class HomeComponent implements OnInit {
   questionTotalAnswered: number = 0;
   questionCorrectAnswered: number = 0;
 
-
+  // boolean for showing that all wrong questions were answered correctly
+  allIncorrectNowCorrectlyAnswered: boolean = false;
 
   // boolean for showing the answer
   showAnswer: boolean = false;
@@ -50,18 +51,6 @@ export class HomeComponent implements OnInit {
   correctThisSession: number = 0;
 
   constructor(private _databaseReference: DbserviceService, private _sessionReference: SessionDBService, private _sanitizer: DomSanitizer, private _router: Router) {
-  }
-
-  private async initialSetup() {
-    this.itemsInDatabase = await this._databaseReference.getQuestionCountFromDatabase();
-    if (this.itemsInDatabase == 0) {
-      return;
-    }
-    await this.getRandomItem();
-  }
-
-  private async getAllCategories() {
-    this.existingCategories = await this._databaseReference.getAllCategories();
   }
 
   ngOnInit(): void {
@@ -77,6 +66,20 @@ export class HomeComponent implements OnInit {
     this.correctThisSession = this._sessionReference.getCorrectSession();
   }
 
+  private async initialSetup() {
+    this.itemsInDatabase = await this._databaseReference.getQuestionCountFromDatabase();
+    if (this.itemsInDatabase == 0) {
+      return;
+    }
+    await this.getRandomItem();
+  }
+
+  private async getAllCategories() {
+    this.existingCategories = await this._databaseReference.getAllCategories();
+    this.existingCategories.push({"_id": "Wrong this session"})
+  }
+
+
   private async getRandomItem() {
     // scroll to top
     document.documentElement.scrollTop = 0;
@@ -91,11 +94,19 @@ export class HomeComponent implements OnInit {
 
     var item: any;
     // check if a category is selected
-    if (this.selectedCategory != undefined && this.selectedCategory != "") {
+    if (this.selectedCategory == "Wrong this session") {
+      item = await this._databaseReference.getNextIncorrect();
+      if (item == 0) {
+        this.allIncorrectNowCorrectlyAnswered = true;
+        return;
+      }
+    } else if (this.selectedCategory != undefined && this.selectedCategory != "") {
       item = await this._databaseReference.getRandomQuestionInCategory(this.selectedCategory);
     } else {
       item = await this._databaseReference.getRandomQuestion();
     }
+
+    this.allIncorrectNowCorrectlyAnswered = false;
 
 
     // populate the local properties
@@ -120,8 +131,8 @@ export class HomeComponent implements OnInit {
         var data = fs.readFileSync(this.questionImagePath);
         this.questionImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
 
-            // reset error for Q image
-    this.questionImageError = "";
+        // reset error for Q image
+        this.questionImageError = "";
       } catch (err) {
         console.log(err);
 
@@ -137,8 +148,8 @@ export class HomeComponent implements OnInit {
       try {
         var data = fs.readFileSync(this.answerImagePath);
         this.answerImage = this._sanitizer.bypassSecurityTrustResourceUrl("data:image/png;base64, " + Buffer.from(data).toString('base64'));
-            // reset A image error
-    this.answerImageError = "";
+        // reset A image error
+        this.answerImageError = "";
       } catch (err) {
         console.log(err);
 
@@ -218,6 +229,9 @@ export class HomeComponent implements OnInit {
 
     // increment question counters
     this.questionTotalAnswered++;
+
+    // add to incorrect answers
+    this._databaseReference.addIncorrect(this.questionID);
 
     // update database
     this._databaseReference.updateQuestion(this.questionID, this.questionRev, this.questionText, this.questionImagePath, this.answerText, this.answerImagePath, this.questionTotalAnswered, this.questionCorrectAnswered, this.category);
