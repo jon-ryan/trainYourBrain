@@ -18,6 +18,9 @@ export class AllitemsComponent implements OnInit {
   toggleDeleteArray: Array<boolean> = [];
 
   toggleDeleteAll: boolean = false;
+  toggleDeleteCategory: boolean = false;
+  categoryToDelete: string = "";
+  toggleMoreOptions: boolean = false;
 
   public open_close: string = "Open";
 
@@ -112,6 +115,13 @@ export class AllitemsComponent implements OnInit {
     }
   }
 
+  public toggleMoreOptionsWindow() {
+    this.toggleMoreOptions = !this.toggleMoreOptions;
+  }
+
+  public keepCertainCategory() {
+    this.categoryToDelete = "";
+  }
   public async deleteAllDocuments() {
 
     this.toggleDeleteAll = false;
@@ -119,5 +129,12 @@ export class AllitemsComponent implements OnInit {
     await this._databaseReference.bulkDelete();
 
     this.getAllItems();
+  }
+
+  public async deleteCertainCategory() {
+    await this._databaseReference.deleteCertainCategory(this.categoryToDelete);
+    this.categoryToDelete = "";
+    this.getAllItems();
+    this.getAllCategories();
   }
 }

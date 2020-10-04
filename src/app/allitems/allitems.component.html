@@ -1,87 +1,119 @@
 <div class="container">
-<h2>All your questions are listed here</h2>
-<br>
-
-<!-- list all items with ngFor-->
-<ng-template [ngIf]="allItems.length != 0" [ngIfElse]="empty">
-    <br>
-    <div class="space-evenly">
-        <div>If you want to clean up, you can delete all your questions and make a fresh start.</div>
-        <div (click)="toggleConfirmDeleteAll()" class="blue-flat-button"><strong>{{ open_close }}</strong></div>
+    <div class="home-header">
+        <h2>All your questions are listed here</h2>
+        <ng-template [ngIf]="allItems.length != 0">
+            <div class="blue-flat-button" (click)="toggleMoreOptionsWindow()"><strong>More options</strong></div>
+        </ng-template>
     </div>
-    <br>
-    <br>
 
-    <ng-template [ngIf]="toggleDeleteAll">
-        Are you sure you want to delete all questions? This action can not be undone.
+
+    <!-- list all items with ngFor-->
+    <ng-template [ngIf]="allItems.length != 0" [ngIfElse]="empty">
+        <ng-template [ngIf]="toggleMoreOptions">
+            <br>
+            <hr>
+            <br>
+            <div class="space-evenly">
+                <div>If you want to clean up, you can delete all your questions and make a fresh start.</div>
+                <div (click)="toggleConfirmDeleteAll()" class="blue-flat-button"><strong>{{ open_close }}</strong></div>
+            </div>
+            <ng-template [ngIf]="toggleDeleteAll">
+                <br>
+                Are you sure you want to delete all questions? This action can not be undone.
+                <br>
+                <br>
+                <div class="float-right">
+                    <button class="red-button" (click)="deleteAllDocuments()" [style.margin-right]="'20px'">Delete
+                        All</button>
+                    <button class="blue-button" (click)="toggleConfirmDeleteAll()">Keep All</button>
+                </div>
+                <br>
+                <br>
+            </ng-template>
+            <br>
+            <br>
+            <br>
+            <div class="space-evenly">
+                <div>You don't need to learn a certain topic anymore? Delete it here!</div>
+                <select [(ngModel)]="categoryToDelete">
+                    <option *ngFor="let category of existingCategories">{{category["_id"]}}</option>
+                </select>
+            </div>
+            <ng-template [ngIf]="categoryToDelete != ''">
+                <br>
+                Are you sure you want to delete all questions in the "<strong>{{categoryToDelete}}</strong>" category?
+                <br>
+                <br>
+                <div class="float-right">
+                    <button class="red-button" (click)="deleteCertainCategory()" [style.margin-right]="'20px'">Delete</button>
+                    <button class="blue-button" (click)="keepCertainCategory()">Keep</button>
+                </div>
+                <br>
+            </ng-template>
+            <br>
+            <hr>
+            <br>
+        </ng-template>
+
+
 
         <br>
-        <br>
-        <div class="float-right">
-            <button class="red-button" (click)="deleteAllDocuments()" [style.margin-right]="'20px'">Delete All</button>
-            <button class="blue-button" (click)="toggleConfirmDeleteAll()">Keep All</button>
+        <div class="space-evenly">
+            <div>Filter by category</div>
+            <select [(ngModel)]="selectedCategory" (change)="filterByCategory()">
+                <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
+            </select>
         </div>
-        <br>
-        <br>
+
+        <div class="list-element" *ngFor="let item of allItems; let i = index">
+            <br>
+            <div class="question-formatting">{{ item["questionText"] }}</div>
+            {{ item["answerText"] }}
+            <br>
+            <br>
+            <strong>Category:</strong> {{ item["category"] }}
+            <div class="space-evenly">
+                <div>Total Times answered: {{ item["total"]}}</div>
+                <div>Times Correctly answered: {{ item["correct"]}}</div>
+                <div>Success Rate: {{item["correct"] / item["total"] * 100 | number: '2.1-1'}}%</div>
+                <div (click)="editItem(item['_id'])" class="blue-flat-button">Edit</div>
+                <div (click)="toggleConfirmDelete(i)" class="red-flat-button">Delete</div>
+            </div>
+
+            <ng-template [ngIf]="item['questionImagePath'] != '' || item['answerImagePath'] != ''">
+                <br>
+                <strong>Images</strong>
+                <br>
+                <ng-template [ngIf]="item['questionImagePath'] != ''">
+                    Location of Question Image: <span class="path">{{ item["questionImagePath"] }}</span>
+                </ng-template>
+                <br>
+                <ng-template [ngIf]="item['answerImagePath'] != ''">
+                    Location of Answer Image: <span class="path">{{ item["answerImagePath"] }}</span>
+                </ng-template>
+            </ng-template>
+
+            <ng-template [ngIf]="toggleDeleteArray[i]">
+                <div>
+                    <br>
+                    <div class="float-right">
+                        <button class="red-button" (click)="deleteItem(i, item['_id'], item['_rev'])"
+                            [style.margin-right]="'20px'">Delete</button>
+                        <button class="blue-button" (click)="toggleConfirmDelete(i)">Keep</button>
+                    </div>
+                    <strong>Are you sure you want to delete this item?</strong>
+                    <div class="clearfix"></div>
+                </div>
+            </ng-template>
+            <br>
+        </div>
+    </ng-template>
+
+    <ng-template #empty>
+        There is nothing here yet. Add some questions first!
     </ng-template>
 
     <br>
-    <div class="space-evenly">
-        <div>Filter by category</div>
-        <select [(ngModel)]="selectedCategory" (change)="filterByCategory()">
-            <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
-        </select>
-    </div>
-
-    <div class="list-element" *ngFor="let item of allItems; let i = index">
-        <br>
-        <div class="question-formatting">{{ item["questionText"] }}</div>
-        {{ item["answerText"] }}
-        <br>
-        <br>
-        <strong>Category:</strong> {{ item["category"] }}
-        <div class="space-evenly">
-            <div>Total Times answered: {{ item["total"]}}</div>
-            <div>Times Correctly answered: {{ item["correct"]}}</div>
-            <div>Success Rate: {{item["correct"] / item["total"] * 100 | number: '2.1-1'}}%</div>
-            <div (click)="editItem(item['_id'])" class="blue-flat-button">Edit</div>
-            <div (click)="toggleConfirmDelete(i)" class="red-flat-button">Delete</div>
-        </div>
-
-        <ng-template [ngIf]="item['questionImagePath'] != '' || item['answerImagePath'] != ''">
-            <br>
-            <strong>Images</strong>
-            <br>
-            <ng-template [ngIf]="item['questionImagePath'] != ''">
-                Location of Question Image: <span class="path">{{ item["questionImagePath"] }}</span>
-            </ng-template>
-            <br>
-            <ng-template [ngIf]="item['answerImagePath'] != ''">
-                Location of Answer Image: <span class="path">{{ item["answerImagePath"] }}</span>
-            </ng-template>
-        </ng-template>
-
-        <ng-template [ngIf]="toggleDeleteArray[i]">
-            <div>
-                <br>
-                <div class="float-right">
-                    <button class="red-button" (click)="deleteItem(i, item['_id'], item['_rev'])"
-                        [style.margin-right]="'20px'">Delete</button>
-                    <button class="blue-button" (click)="toggleConfirmDelete(i)">Keep</button>
-                </div>
-                <strong>Are you sure you want to delete this item?</strong>
-                <div class="clearfix"></div>
-            </div>
-        </ng-template>
-        <br>
-    </div>
-</ng-template>
-
-<ng-template #empty>
-    There is nothing here yet. Add some questions first!
-</ng-template>
-
-<br>
-<br>
-<br>
+    <br>
+    <br>
 </div>

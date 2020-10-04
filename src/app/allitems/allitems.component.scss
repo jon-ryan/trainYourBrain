@@ -5,6 +5,10 @@
     border-bottom: 1px solid grey;
 }
 
+hr{
+    border: 1px solid grey;
+}
+
 .space-evenly {
     display: flex;
     justify-content: space-between;
@@ -31,5 +35,18 @@ select {
 
 .path {
     font-size: 11px;
+}
+
+.home-header {
+    display: flex;
+    justify-content: space-between;
+
+    h2 {
+        display: inline-block;
+    }
+
+    div {
+        margin-top: 29px;
+    }
 }
 

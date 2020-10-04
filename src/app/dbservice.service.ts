@@ -421,4 +421,43 @@ export class DbserviceService {
     await this.categoryDatabase.destroy();
     this.categoryDatabase = new PouchDB('categories');
   }
+
+  public async deleteCertainCategory(category: string) {
+    // load all
+    try {
+      var result = await this.questionDatabase.allDocs({ include_docs: true })
+    } catch (err) {
+      console.log(err);
+    }
+
+    // add every document in the specified category to an array
+    var questionsToDelete = [];
+    var i: number = 0;
+    for (i = 0; i < result.total_rows; i++) {
+      if (result.rows[i].doc["category"] == category) {
+        questionsToDelete.push(result.rows[i].doc);
+      }
+    }
+
+    // delete all of those categories
+    for (var item of questionsToDelete) {
+      try {
+        // remove document
+        await this.questionDatabase.remove(item["_id"], item["_rev"]);
+        // update the document id array
+        this.getQuestionIDs();
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
+    // delete category
+    try {
+      var cat = await this.categoryDatabase.get(category);
+      await this.categoryDatabase.remove(cat["_id"], cat["_rev"])
+    } catch(err) {
+      console.log(err)
+    }
+
+  }
 }
