@@ -1,10 +1,15 @@
 <div class="container">
     <h2>Add a new Item</h2>
-    <h3>Question</h3>
-    <textarea id="question-text" name="question-text" [(ngModel)]="questionText" rows="4" cols="70"></textarea>
+
+    <!-- Question Input -->
+    <div class="form__group field">
+        <textarea rows="3" cols="100" class="form__field" placeholder="questionText" name="questionText" id='questionText'
+            [(ngModel)]="questionText" required></textarea>
+        <label for="questionText" class="form__label">Question Text</label>
+    </div>
     <br>
     <br>
-    <button class="blue-button" (click)="openFileDialogQuestionImage()">Select Image</button>
+    <button class="blue-button" (click)="openFileDialogQuestionImage()">Select Question Image</button>
     <br>
     <br>
     <img [src]="questionImage" height="200px">
@@ -16,11 +21,15 @@
     {{ questionImagePath }}
     <br>
     <br>
-    <h3>Answer</h3>
-    <textarea id="answer-text" name="answer-text" [(ngModel)]="answerText" rows="4" cols="70"></textarea>
+    <!-- Answer input -->
+    <div class="form__group field">
+        <textarea rows="3" cols="100" class="form__field" placeholder="answerText" name="answerText" id='answerText'
+            [(ngModel)]="answerText" required></textarea>
+        <label for="answerText" class="form__label">Answer Text</label>
+    </div>
     <br>
     <br>
-    <button class="blue-button" (click)="openFileDialogAnswerImage()">Select Image</button>
+    <button class="blue-button" (click)="openFileDialogAnswerImage()">Select Answer Image</button>
     <br>
     <br>
     <img [src]="answerImage" height="200px">
@@ -32,21 +41,31 @@
     {{ answerImagePath }}
     <br>
     <br>
-    <h3>Category</h3>
-    <div class="space-evenly">
-        <div>Create new</div>
-        <input type="text" id="category" class="input-text" [(ngModel)]="categoryNew" name="category">
+
+    <!-- Category input -->
+    <div class="form__group field">
+        <input type="text" class="form__field" placeholder="Category" name="categoryNew" id='categoryNew'
+            [(ngModel)]="categoryNew" required />
+        <label for="categoryNew" class="form__label">Create a New Category</label>
     </div>
-    <br>
-    <div class="space-evenly">
-        <div>or assign to an existing category</div>
-        <select [(ngModel)]="categoryFromList">
+
+    <div class="fontSize1rem">
+        <br>
+        or
+        <br>
+    </div>
+
+    <!---->
+    <div class="space-evenly width50 fontSize1rem">
+        <div>Existing Category</div>
+        <select [(ngModel)]="categoryFromList" class="form__field" name="categoryFromList" id="categoryFromList">
             <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
         </select>
     </div>
+
+
     <br>
-    <br>
-    <button class="blue-button" (click)="submitNewItem()">Add</button>
+    <button class="blue-button" (click)="submitNewItem()">Add Item</button>
 
     <br>
     <br>

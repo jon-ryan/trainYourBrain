@@ -45,7 +45,8 @@
                 <br>
                 <br>
                 <div class="float-right">
-                    <button class="red-button" (click)="deleteCertainCategory()" [style.margin-right]="'20px'">Delete</button>
+                    <button class="red-button" (click)="deleteCertainCategory()"
+                        [style.margin-right]="'20px'">Delete</button>
                     <button class="blue-button" (click)="keepCertainCategory()">Keep</button>
                 </div>
                 <br>
@@ -58,12 +59,14 @@
 
 
         <br>
-        <div class="space-evenly">
-            <div>Filter by category</div>
-            <select [(ngModel)]="selectedCategory" (change)="filterByCategory()">
+        <div class="space-evenly fontSize1rem">
+            <div>Filter by Category</div>
+            <select [(ngModel)]="selectedCategory" (change)="filterByCategory()" class="form__field width_auto"
+                name="selectedCategory" id="selectedCategory">
                 <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
             </select>
         </div>
+
 
         <div class="list-element" *ngFor="let item of allItems; let i = index">
             <br>

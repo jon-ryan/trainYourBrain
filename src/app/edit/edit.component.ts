@@ -63,9 +63,6 @@ export class EditComponent implements OnInit {
     this.questionTotalAnswered = item["total"];
     this.questionCorrectAnswered = item["correct"];
 
-    this.category = item["category"];
-    this.categoryFromList = item["category"];
-
     this.returnTo = this._database.getPageToRouteBackTo();
 
 
@@ -164,7 +161,7 @@ export class EditComponent implements OnInit {
     }
 
     // update database
-    await this._database.updateQuestion(this.questionID, this.questionRev, this.questionText, this.questionImagePath, this.answerText, this.answerImagePath, this.questionTotalAnswered, this.questionCorrectAnswered, this.category)
+    await this._database.updateQuestion(this.questionID, this.questionRev, this.questionText, this.questionImagePath, this.answerText, this.answerImagePath, this.questionTotalAnswered, this.questionCorrectAnswered, tmpCategory);
 
     this._router.navigateByUrl(this.returnTo)
   }

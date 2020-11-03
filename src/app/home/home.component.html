@@ -9,9 +9,12 @@
   <ng-template [ngIf]="itemsInDatabase != 0" [ngIfElse]="empty">
 
 
-    <div class="space-evenly">
-      <div>Filter by Category:</div>
-      <select [(ngModel)]="selectedCategory" (change)="getRandomItem()">
+
+
+    <div class="space-evenly fontSize1rem">
+      <div>Filter by Category</div>
+      <select [(ngModel)]="selectedCategory" (change)="getRandomItem()" class="form__field width_auto"
+        name="selectedCategory" id="selectedCategory">
         <option *ngFor="let category of existingCategories">{{ category["_id"] }}</option>
       </select>
     </div>
@@ -49,8 +52,11 @@
 
 
       <!-- textarea for own solution -->
-      <h3>Your Answer</h3>
-      <textarea rows="4" cols="70" [(ngModel)]="providedAnswer"></textarea>
+      <div class="form__group field">
+        <textarea rows="3" cols="100" class="form__field" placeholder="providedAnswer" name="providedAnswer"
+          id='providedAnswer' [(ngModel)]="providedAnswer" required></textarea>
+        <label for="providedAnswer" class="form__label">Your Answer</label>
+      </div>
       <br>
       <br>
 
